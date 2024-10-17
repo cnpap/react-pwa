@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import NotificationDropdown from './NotificationDropdown';
 import AppsDropdown from './AppsDropdown';
 import UserDropdown from './UserDropdown';
+import { supabase } from '@/utils/supabase';
+import { User } from '@supabase/supabase-js';
 
 interface DashboardNavProps {
   toggleSidebar: () => void;
@@ -11,10 +13,21 @@ function DashboardNav({ toggleSidebar }: DashboardNavProps) {
   const [isNotificationDropdownOpen, setIsNotificationDropdownOpen] = useState(false);
   const [isAppsDropdownOpen, setIsAppsDropdownOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
   const navRef = useRef<HTMLDivElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
   const appsRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    async function getUser() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUser(user);
+    }
+    getUser();
+  }, []);
 
   const toggleNotificationDropdown = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -59,7 +72,7 @@ function DashboardNav({ toggleSidebar }: DashboardNavProps) {
   return (
     <nav
       ref={navRef}
-      className="bg-white border-t md:border-b border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 bottom-0 md:top-0 md:bottom-auto z-50"
+      className="bg-white border-b border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 bottom-0 md:top-0 md:bottom-auto z-50"
     >
       <div className="flex flex-wrap justify-between items-center">
         <div className="flex justify-start items-center">
@@ -142,14 +155,17 @@ function DashboardNav({ toggleSidebar }: DashboardNavProps) {
               id="user-menu-button"
               aria-expanded={isUserMenuOpen}
             >
-              <span className="sr-only">Open user menu</span>
+              <span className="sr-only">打开用户菜单</span>
               <img
                 className="w-8 h-8 rounded-full"
-                src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png"
-                alt="user photo"
+                src={
+                  user?.user_metadata.avatar_url ||
+                  'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/default-avatar.png'
+                }
+                alt="用户头像"
               />
             </button>
-            <UserDropdown isOpen={isUserMenuOpen} />
+            <UserDropdown isOpen={isUserMenuOpen} user={user} />
           </div>
         </div>
       </div>

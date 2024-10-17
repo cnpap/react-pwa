@@ -1,19 +1,33 @@
-import React from 'react';
+import { supabase } from '@/utils/supabase';
+import { useNavigate } from 'react-router-dom';
+import { User } from '@supabase/supabase-js';
 
 interface UserDropdownProps {
   isOpen: boolean;
+  user: User | null;
 }
 
-function UserDropdown({ isOpen }: UserDropdownProps) {
+function UserDropdown({ isOpen, user }: UserDropdownProps) {
+  const navigate = useNavigate();
+
   if (!isOpen) return null;
+
+  const handleSignOut = async () => {
+    try {
+      await supabase.auth.signOut();
+      navigate('/');
+    } catch (error) {
+      console.error('退出登录时出错:', error);
+    }
+  };
 
   return (
     <div className="fixed md:absolute left-1/2 md:left-auto md:right-0 transform -translate-x-1/2 md:translate-x-0 w-60 max-h-[calc(100vh-100px)] overflow-y-auto bg-white rounded-lg shadow-lg dark:bg-gray-700 z-50 md:top-full md:mt-2 bottom-16 md:bottom-auto">
       <div className="py-3 px-4">
-        <span className="block text-sm font-semibold text-gray-900 dark:text-white">Neil Sims</span>
-        <span className="block text-sm text-gray-900 truncate dark:text-white">
-          name@flowbite.com
+        <span className="block text-sm font-semibold text-gray-900 dark:text-white">
+          {user?.user_metadata.full_name || user?.email}
         </span>
+        <span className="block text-sm text-gray-900 truncate dark:text-white">{user?.email}</span>
       </div>
       <ul className="py-1 text-gray-700 dark:text-gray-300" aria-labelledby="dropdown">
         <li>
@@ -21,7 +35,7 @@ function UserDropdown({ isOpen }: UserDropdownProps) {
             href="#"
             className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
           >
-            My profile
+            我的资料
           </a>
         </li>
         <li>
@@ -29,7 +43,7 @@ function UserDropdown({ isOpen }: UserDropdownProps) {
             href="#"
             className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
           >
-            Account settings
+            账户设置
           </a>
         </li>
       </ul>
@@ -51,7 +65,7 @@ function UserDropdown({ isOpen }: UserDropdownProps) {
                 clipRule="evenodd"
               ></path>
             </svg>
-            My likes
+            我的喜欢
           </a>
         </li>
         <li>
@@ -67,7 +81,7 @@ function UserDropdown({ isOpen }: UserDropdownProps) {
             >
               <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path>
             </svg>
-            Collections
+            收藏夹
           </a>
         </li>
         <li>
@@ -89,7 +103,7 @@ function UserDropdown({ isOpen }: UserDropdownProps) {
                   clipRule="evenodd"
                 ></path>
               </svg>
-              Pro version
+              专业版
             </span>
             <svg
               aria-hidden="true"
@@ -109,12 +123,12 @@ function UserDropdown({ isOpen }: UserDropdownProps) {
       </ul>
       <ul className="py-1 text-gray-700 dark:text-gray-300" aria-labelledby="dropdown">
         <li>
-          <a
-            href="#"
-            className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+          <button
+            onClick={handleSignOut}
+            className="block w-full text-left py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
           >
-            Sign out
-          </a>
+            退出登录
+          </button>
         </li>
       </ul>
     </div>

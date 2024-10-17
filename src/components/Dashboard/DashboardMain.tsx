@@ -1,6 +1,6 @@
 function DashboardMain() {
   return (
-    <main className="bg-gray-50 dark:bg-gray-900 p-4 md:ml-64 lg:mr-16 min-h-full md:pt-14 pb-20">
+    <main className="bg-gray-50 dark:bg-gray-900 p-4 md:ml-64 lg:mr-16 min-h-full md:pt-20 pb-20 md:pb-4">
       <div className="grid grid-cols-3 gap-4 mb-4">
         <div className="border-2 border-dashed border-gray-300 rounded-lg dark:border-gray-600 h-32 lg:h-64"></div>
         <div className="border-2 border-dashed border-gray-300 rounded-lg dark:border-gray-600 h-32 lg:h-64"></div>
