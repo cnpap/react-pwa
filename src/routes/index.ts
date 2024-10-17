@@ -3,6 +3,7 @@ import BugReportIcon from '@mui/icons-material/BugReport';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import HomeIcon from '@mui/icons-material/Home';
 import TerrainIcon from '@mui/icons-material/Terrain';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 import asyncComponentLoader from '@/utils/loader';
 
@@ -14,6 +15,17 @@ const routes: Routes = {
     path: '/',
     title: 'Welcome',
     icon: HomeIcon,
+  },
+  [Pages.Dashboard]: {
+    component: asyncComponentLoader(() => import('@/pages/Dashboard')),
+    path: '/dashboard',
+    title: 'Dashboard',
+    icon: DashboardIcon,
+  },
+  [Pages.WelcomeCallback]: {
+    component: asyncComponentLoader(() => import('@/pages/Welcome/WelcomeCallback')),
+    path: '/auth/callback',
+    title: 'Auth Callback',
   },
   [Pages.Page1]: {
     component: asyncComponentLoader(() => import('@/pages/Page1')),
