@@ -1,8 +1,8 @@
 {
-  "name": "React PWA",
-  "short_name": "reactpwa",
-  "description": "Starter kit for modern web applications",
-  "theme_color": "#ffffff",
+  "name": "opss 运维平台",
+  "short_name": "opss",
+  "description": "opss 运维平台",
+  "theme_color": "#2563eb",
   "icons": [
     {
       "src": "pwa-192x192.png",
