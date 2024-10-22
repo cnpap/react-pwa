@@ -8,24 +8,63 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import asyncComponentLoader from '@/utils/loader';
 
 import { Pages, Routes } from './types';
+import {
+  ROUTE_AUTH_FORGOT_PASSWORD,
+  ROUTE_AUTH_LOGIN,
+  ROUTE_AUTH_REGISTER_ACCOUNT,
+  ROUTE_AUTH_SET_PASSWORD,
+  ROUTE_DASHBOARD,
+  ROUTE_HOME,
+  ROUTE_SUPABASE_CALLBACK,
+} from '@/constant/route';
 
 const routes: Routes = {
   [Pages.Welcome]: {
-    component: asyncComponentLoader(() => import('@/pages/Welcome')),
-    path: '/',
-    title: 'Welcome',
+    component: asyncComponentLoader(() => import('@/pages/Auth/AuthPage')),
+    path: ROUTE_HOME,
+    title: '首页',
     icon: HomeIcon,
   },
+  [Pages.WelcomeCallback]: {
+    component: asyncComponentLoader(() => import('@/pages/Auth/SupabaseCallback')),
+    path: ROUTE_SUPABASE_CALLBACK,
+    title: '社交登录回调页',
+  },
+  [Pages.Login]: {
+    component: asyncComponentLoader(() => import('@/pages/Auth/AuthPage')),
+    path: ROUTE_AUTH_LOGIN,
+    title: '登录',
+  },
+  [Pages.SetPassword]: {
+    component: asyncComponentLoader(() => import('@/pages/Auth/AuthPage')),
+    path: ROUTE_AUTH_SET_PASSWORD,
+    title: '设置密码',
+  },
+  [Pages.ForgotPassword]: {
+    component: asyncComponentLoader(() => import('@/pages/Auth/AuthPage')),
+    path: ROUTE_AUTH_FORGOT_PASSWORD,
+    title: '找回密码',
+  },
+  [Pages.RegisterAccount]: {
+    component: asyncComponentLoader(() => import('@/pages/Auth/RegisterOnboarding')),
+    path: ROUTE_AUTH_REGISTER_ACCOUNT,
+    title: '注册账户',
+  },
+  // [Pages.RegisterCooperation]: {
+  //   component: asyncComponentLoader(() => import('@/pages/Auth/RegisterOnboarding')),
+  //   path: ROUTE_AUTH_REGISTER_COOPERATION,
+  //   title: '填写合作意向',
+  // },
+  // [Pages.RegisterSuccess]: {
+  //   component: asyncComponentLoader(() => import('@/pages/Auth/RegisterOnboarding')),
+  //   path: ROUTE_AUTH_REGISTER_SUCCESS,
+  //   title: '注册成功',
+  // },
   [Pages.Dashboard]: {
     component: asyncComponentLoader(() => import('@/pages/Dashboard')),
-    path: '/dashboard',
+    path: ROUTE_DASHBOARD,
     title: 'Dashboard',
     icon: DashboardIcon,
-  },
-  [Pages.WelcomeCallback]: {
-    component: asyncComponentLoader(() => import('@/pages/Welcome/WelcomeCallback')),
-    path: '/auth/callback',
-    title: 'Auth Callback',
   },
   [Pages.Page1]: {
     component: asyncComponentLoader(() => import('@/pages/Page1')),

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const AccountSchema = z.object({
-  user_id: z.string().max(40),
+  id: z.string().uuid().optional(),
   username: z.string().max(255),
   email: z.string().max(255),
   avatar_url: z.string().max(255).nullable(),
@@ -9,6 +9,7 @@ export const AccountSchema = z.object({
   created_at: z.date().default(() => new Date()),
   updated_at: z.date().default(() => new Date()),
   deleted_flag: z.boolean().default(false),
+  phone: z.string().max(255).default(''),
 });
 
 export const AccountUpdateSchema = AccountSchema.pick({

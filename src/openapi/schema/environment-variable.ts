@@ -3,7 +3,6 @@ import { z } from 'zod';
 export const EnvironmentVariableSchema = z.object({
   id: z.string().uuid().optional(),
   project_id: z.string().uuid(),
-  application_id: z.string().uuid().optional().nullable(),
   name: z.string().max(255),
   value: z.string(),
   format: z.enum(['env', 'json', 'yaml']),
@@ -14,7 +13,6 @@ export const EnvironmentVariableSchema = z.object({
 
 export const EnvironmentVariableCreateSchema = EnvironmentVariableSchema.pick({
   project_id: true,
-  application_id: true,
   name: true,
   value: true,
   format: true,

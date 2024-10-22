@@ -3,7 +3,73 @@ info:
   title: opss-bues-api
   version: 1.0.0
 paths:
-  /bues/account/init:
+  /bues/account/bind-phone:
+    post:
+      responses:
+        '200':
+          description: 请求成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                required:
+                  - success
+                  - message
+      parameters: []
+      tags:
+        - 账号
+      summary: 验证手机号并绑定到账号
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone:
+                  type: string
+                verificationCode:
+                  type: string
+                preference: {}
+              required:
+                - phone
+                - verificationCode
+  /bues/account/send-phone-verification:
+    post:
+      responses:
+        '200':
+          description: 请求成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                required:
+                  - success
+                  - message
+      parameters: []
+      tags:
+        - 账号
+      summary: 发送手机验证码
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone:
+                  type: string
+              required:
+                - phone
+  /bues/account/init-by-supabase:
     post:
       responses:
         '200':
@@ -17,14 +83,21 @@ paths:
                     type: boolean
                   data:
                     type: object
-                    properties: {}
+                    properties:
+                      id:
+                        type: string
+                      token:
+                        type: string
+                    required:
+                      - id
+                      - token
                 required:
                   - success
                   - data
       parameters: []
       tags:
         - 账号
-      summary: 初始化账户
+      summary: 初始化账户 - supabase
   /bues/account/update:
     post:
       responses:
@@ -354,6 +427,175 @@ paths:
                 - project_id
                 - description
                 - name
+  /bues/auth/reset-password:
+    post:
+      responses:
+        '200':
+          description: 请求成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                    required:
+                      - message
+                required:
+                  - success
+                  - data
+      parameters: []
+      tags:
+        - 认证
+      summary: 重置密码
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                token:
+                  type: string
+              required:
+                - password
+                - token
+  /bues/auth/send-reset-password-email:
+    post:
+      responses:
+        '200':
+          description: 请求成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                required:
+                  - success
+      parameters: []
+      tags:
+        - 认证
+      summary: 发送重置密码邮件
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+              required:
+                - email
+  /bues/auth/register:
+    post:
+      responses:
+        '200':
+          description: 请求成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                    required:
+                      - message
+                required:
+                  - success
+                  - data
+      parameters: []
+      tags:
+        - 认证
+      summary: 注册账户
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                email:
+                  type: string
+                username:
+                  type: string
+                verificationCode:
+                  type: string
+              required:
+                - password
+                - email
+                - username
+                - verificationCode
+  /bues/auth/verify-email-register-code:
+    post:
+      responses:
+        '200':
+          description: 请求成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerificationResult'
+      parameters: []
+      tags:
+        - 认证
+      summary: 验证邮箱注册验证码
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                verificationCode:
+                  type: string
+              required:
+                - email
+                - verificationCode
+  /bues/auth/send-email-register-code:
+    post:
+      responses:
+        '200':
+          description: 请求成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                required:
+                  - success
+                  - message
+      parameters: []
+      tags:
+        - 认证
+      summary: 发送邮箱注册验证码
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+              required:
+                - email
   /bues/environment-variable/list/:projectId:
     get:
       responses:
@@ -539,11 +781,6 @@ paths:
                       const: json
                     - type: string
                       const: yaml
-                application_id:
-                  anyOf:
-                    - type: string
-                    - type: 'null'
-                    - {}
               required:
                 - project_id
                 - name
@@ -920,6 +1157,27 @@ paths:
       summary: 头像上传签名 URL
 components:
   schemas:
+    VerificationResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            token:
+              type: string
+            id:
+              type: string
+          required:
+            - token
+            - id
+      required:
+        - success
+        - message
+        - data
     VariableFormat:
       anyOf:
         - type: string

@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-  '/bues/account/init': {
+  '/bues/account/bind-phone': {
     parameters: {
       query?: never;
       header?: never;
@@ -13,7 +13,99 @@ export interface paths {
     };
     get?: never;
     put?: never;
-    /** 初始化账户 */
+    /** 验证手机号并绑定到账号 */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          'application/json': {
+            phone: string;
+            verificationCode: string;
+            preference?: unknown;
+          };
+        };
+      };
+      responses: {
+        /** @description 请求成功 */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': {
+              success: boolean;
+              message: string;
+            };
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/bues/account/send-phone-verification': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** 发送手机验证码 */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          'application/json': {
+            phone: string;
+          };
+        };
+      };
+      responses: {
+        /** @description 请求成功 */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': {
+              success: boolean;
+              message: string;
+            };
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/bues/account/init-by-supabase': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** 初始化账户 - supabase */
     post: {
       parameters: {
         query?: never;
@@ -31,7 +123,10 @@ export interface paths {
           content: {
             'application/json': {
               success: boolean;
-              data: Record<string, never>;
+              data: {
+                id: string;
+                token: string;
+              };
             };
           };
         };
@@ -414,6 +509,236 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/bues/auth/reset-password': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** 重置密码 */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          'application/json': {
+            password: string;
+            token: string;
+          };
+        };
+      };
+      responses: {
+        /** @description 请求成功 */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': {
+              success: boolean;
+              data: {
+                message: string;
+              };
+            };
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/bues/auth/send-reset-password-email': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** 发送重置密码邮件 */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          'application/json': {
+            email: string;
+          };
+        };
+      };
+      responses: {
+        /** @description 请求成功 */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': {
+              success: boolean;
+            };
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/bues/auth/register': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** 注册账户 */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          'application/json': {
+            password: string;
+            email: string;
+            username: string;
+            verificationCode: string;
+          };
+        };
+      };
+      responses: {
+        /** @description 请求成功 */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': {
+              success: boolean;
+              data: {
+                message: string;
+              };
+            };
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/bues/auth/verify-email-register-code': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** 验证邮箱注册验证码 */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          'application/json': {
+            email: string;
+            verificationCode: string;
+          };
+        };
+      };
+      responses: {
+        /** @description 请求成功 */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['VerificationResult'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/bues/auth/send-email-register-code': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** 发送邮箱注册验证码 */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: {
+        content: {
+          'application/json': {
+            email: string;
+          };
+        };
+      };
+      responses: {
+        /** @description 请求成功 */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': {
+              success: boolean;
+              message: string;
+            };
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/bues/environment-variable/list/:projectId': {
     parameters: {
       query?: never;
@@ -581,7 +906,6 @@ export interface paths {
             name: string;
             value: string;
             format: 'env' | 'json' | 'yaml';
-            application_id?: string | null | unknown;
           };
         };
       };
@@ -1009,6 +1333,14 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
+    VerificationResult: {
+      success: boolean;
+      message: string;
+      data: {
+        token: string;
+        id: string;
+      };
+    };
     VariableFormat: 'env' | 'json' | 'yaml';
   };
   responses: never;

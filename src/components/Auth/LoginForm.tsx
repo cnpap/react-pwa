@@ -3,7 +3,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { supabase } from '@/utils/supabase';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { ROUTE_AUTH_REGISTER_ACCOUNT } from '@/constant/route';
 
 // 定义表单验证模式
 const schema = z.object({
@@ -56,7 +57,7 @@ const LoginForm: React.FC = () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: provider,
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
+          redirectTo: `${window.location.origin}/auth/supabase-callback`,
         },
       });
       if (error) {
@@ -74,7 +75,7 @@ const LoginForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-6">
-      <h1 className="text-xl font-bold text-gray-900 dark:text-white">欢迎</h1>
+      <h1 className="text-xl font-bold text-gray-900 dark:text-white">欢迎登录</h1>
       <div className="items-center space-x-0 space-y-3 sm:flex sm:space-x-4 sm:space-y-0">
         <button
           type="button"
@@ -181,12 +182,12 @@ const LoginForm: React.FC = () => {
             </label>
           </div>
         </div>
-        <a
-          href="#"
+        <Link
+          to="/auth/forgot-password"
           className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
         >
           忘记密码？
-        </a>
+        </Link>
       </div>
       {error && <p className="text-sm text-red-600">{error}</p>}
       <button type="submit" className="btn-primary" disabled={loading}>
@@ -194,9 +195,12 @@ const LoginForm: React.FC = () => {
       </button>
       <p className="text-sm font-light text-gray-500 dark:text-gray-400">
         还没有账户？{' '}
-        <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
+        <Link
+          to={ROUTE_AUTH_REGISTER_ACCOUNT}
+          className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+        >
           注册
-        </a>
+        </Link>
       </p>
     </form>
   );
