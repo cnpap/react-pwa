@@ -5,6 +5,12 @@ import { z } from 'zod';
 import { Link } from 'react-router-dom';
 import { $fetch } from '@/openapi/api';
 
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+
 const schema = z.object({
   email: z.string().email('请输入有效的电子邮箱地址'),
 });
@@ -53,36 +59,44 @@ const ForgotPasswordForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-6">
-      <h1 className="text-xl font-bold text-gray-900 dark:text-white">找回密码</h1>
-      <div>
-        <label htmlFor="email" className="input-label">
-          电子邮箱
-        </label>
-        <input
-          {...register('email')}
-          type="email"
-          id="email"
-          className="input-primary"
-          placeholder="name@company.com"
-        />
-        {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
-      </div>
-      {error && <p className="text-sm text-red-600">{error}</p>}
-      {success && <p className="text-sm text-green-600">重置密码链接已发送到您的邮箱，请查收。</p>}
-      <button type="submit" className="btn-primary" disabled={loading}>
-        {loading ? '发送中...' : '发送重置密码链接'}
-      </button>
-      <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-        记起密码了？{' '}
-        <Link
-          to="/auth/login"
-          className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-        >
-          返回登录
-        </Link>
-      </p>
-    </form>
+    <Card className="w-full max-w-md">
+      <CardHeader>
+        <CardTitle className="text-2xl font-bold">找回密码</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="email">电子邮箱</Label>
+            <Input {...register('email')} type="email" id="email" placeholder="name@company.com" />
+            {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
+          </div>
+
+          {error && (
+            <Alert variant="destructive">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+
+          {success && (
+            <Alert>
+              <AlertDescription>重置密码链接已发送到您的邮箱，请查收。</AlertDescription>
+            </Alert>
+          )}
+
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? '发送中...' : '发送重置密码链接'}
+          </Button>
+        </form>
+      </CardContent>
+      <CardFooter>
+        <p className="text-sm text-muted-foreground">
+          记起密码了？{' '}
+          <Link to="/auth/login" className="font-medium text-primary hover:underline">
+            返回登录
+          </Link>
+        </p>
+      </CardFooter>
+    </Card>
   );
 };
 

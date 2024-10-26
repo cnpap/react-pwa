@@ -4,7 +4,6 @@ export const ProjectSchema = z.object({
   id: z.string().uuid().optional(),
   user_id: z.string().uuid(),
   name: z.string().max(255),
-  slug: z.string().max(255),
   description: z.string().nullable(),
   max_applications: z.number().int().default(10),
   max_collaborators: z.number().int().default(50),
@@ -15,7 +14,6 @@ export const ProjectSchema = z.object({
 
 export const ProjectCreateSchema = ProjectSchema.pick({
   name: true,
-  slug: true,
   description: true,
 });
 

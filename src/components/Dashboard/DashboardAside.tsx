@@ -1,23 +1,18 @@
 import { useState } from 'react';
 import AsideItem from './AsideItem';
 import AsideSubItem from './AsideSubItem';
+import { useProjectList } from '@/hooks/useProjectList';
 
 interface DashboardAsideProps {
   isOpen: boolean;
 }
 
 function DashboardAside({ isOpen }: DashboardAsideProps) {
-  const [showTooltip, setShowTooltip] = useState(false);
+  // const [showTooltip, setShowTooltip] = useState(false);
   const [showProjectList, setShowProjectList] = useState(true);
   const [selectedProject, setSelectedProject] = useState<string>('1');
 
-  // 项目列表数据
-  const projectList = [
-    { id: '1', name: '我的项目 1', color: 'bg-primary-600' },
-    { id: '2', name: '我的项目 2', color: 'bg-teal-400' },
-    { id: '3', name: '他人的项目 1', color: 'bg-orange-300' },
-    { id: '4', name: '他人的项目 2', color: 'bg-purple-500' },
-  ];
+  const projectList = useProjectList();
 
   // 成员列表数据（示例）
   const memberList = [
@@ -175,7 +170,7 @@ function DashboardAside({ isOpen }: DashboardAsideProps) {
                       }`}
                       onClick={() => setSelectedProject(project.id)}
                     >
-                      <span className={`w-4 h-4 ${project.color} rounded`}></span>
+                      <span className={`w-4 h-4 bg-primary-600 rounded`}></span>
                       <span className="ml-3">{project.name}</span>
                     </a>
                   </li>
@@ -213,10 +208,10 @@ function DashboardAside({ isOpen }: DashboardAsideProps) {
             </div>
           </div>
         </div>
-        <div className="my-2">
+        <div className="my-2 pb-1.5">
           <a
             href="#"
-            className="flex items-center pl-5 text-base font-medium text-gray-900 rounded-lg transition duration-75 dark:text-gray-200 group px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+            className="flex items-center pl-5 text-base font-medium text-gray-900 rounded-lg transition duration-75 dark:text-gray-200 group px-3 py-2 hover:bg-gray-100 bg-gray-50 dark:hover:bg-gray-700"
           >
             <span className="w-4 h-4 rounded border border-gray-200 dark:border-gray-400 flex items-center justify-center">
               <svg
@@ -239,49 +234,49 @@ function DashboardAside({ isOpen }: DashboardAsideProps) {
         </div>
       </div>
 
-      <div className="flex justify-center p-4 py-2 space-x-4 border-t border-gray-200 w-full bg-white dark:bg-gray-800 z-20">
-        <a
-          href="#"
-          className="inline-flex justify-center p-2 text-gray-500 rounded cursor-pointer dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-600"
-        >
-          <svg
-            aria-hidden="true"
-            className="w-6 h-6"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"></path>
-          </svg>
-        </a>
-        <div className="relative">
-          <a
-            href="#"
-            className="inline-flex justify-center p-2 text-gray-500 rounded cursor-pointer dark:text-gray-400 dark:hover:text-white hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-600"
-            onMouseEnter={() => setShowTooltip(true)}
-            onMouseLeave={() => setShowTooltip(false)}
-          >
-            <svg
-              aria-hidden="true"
-              className="w-6 h-6"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
-                clipRule="evenodd"
-              ></path>
-            </svg>
-          </a>
-          {showTooltip && (
-            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm z-50 whitespace-nowrap">
-              Settings page
-            </div>
-          )}
-        </div>
-      </div>
+      {/*<div className="flex justify-center p-4 py-2 space-x-4 border-t border-gray-200 w-full bg-white dark:bg-gray-800 z-20">*/}
+      {/*  <a*/}
+      {/*    href="#"*/}
+      {/*    className="inline-flex justify-center p-2 text-gray-500 rounded cursor-pointer dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-600"*/}
+      {/*  >*/}
+      {/*    <svg*/}
+      {/*      aria-hidden="true"*/}
+      {/*      className="w-6 h-6"*/}
+      {/*      fill="currentColor"*/}
+      {/*      viewBox="0 0 20 20"*/}
+      {/*      xmlns="http://www.w3.org/2000/svg"*/}
+      {/*    >*/}
+      {/*      <path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"></path>*/}
+      {/*    </svg>*/}
+      {/*  </a>*/}
+      {/*  <div className="relative">*/}
+      {/*    <a*/}
+      {/*      href="#"*/}
+      {/*      className="inline-flex justify-center p-2 text-gray-500 rounded cursor-pointer dark:text-gray-400 dark:hover:text-white hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-600"*/}
+      {/*      onMouseEnter={() => setShowTooltip(true)}*/}
+      {/*      onMouseLeave={() => setShowTooltip(false)}*/}
+      {/*    >*/}
+      {/*      <svg*/}
+      {/*        aria-hidden="true"*/}
+      {/*        className="w-6 h-6"*/}
+      {/*        fill="currentColor"*/}
+      {/*        viewBox="0 0 20 20"*/}
+      {/*        xmlns="http://www.w3.org/2000/svg"*/}
+      {/*      >*/}
+      {/*        <path*/}
+      {/*          fillRule="evenodd"*/}
+      {/*          d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"*/}
+      {/*          clipRule="evenodd"*/}
+      {/*        ></path>*/}
+      {/*      </svg>*/}
+      {/*    </a>*/}
+      {/*    {showTooltip && (*/}
+      {/*      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm z-50 whitespace-nowrap">*/}
+      {/*        Settings page*/}
+      {/*      </div>*/}
+      {/*    )}*/}
+      {/*  </div>*/}
+      {/*</div>*/}
     </aside>
   );
 }

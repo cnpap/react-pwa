@@ -72,7 +72,7 @@ function DashboardNav({ toggleSidebar }: DashboardNavProps) {
   return (
     <nav
       ref={navRef}
-      className="bg-white sm:border-b border-t border-b border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 bottom-0 md:top-0 md:bottom-auto z-50"
+      className="bg-white sm:border-b border-t border-b border-gray-200 px-4 lg:px-6 lg:pr-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 bottom-0 md:top-0 md:bottom-auto z-50"
     >
       <div className="flex flex-wrap justify-between items-center">
         <div className="flex justify-start items-center">

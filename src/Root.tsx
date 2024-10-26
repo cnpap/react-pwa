@@ -16,6 +16,7 @@ const queryClient = new QueryClient();
 function render(App: ComponentType) {
   root.render(
     <StrictMode>
+      {/* <SidebarProvider> */}
       <ToastProvider>
         {/*<RecoilRoot>*/}
         <QueryClientProvider client={queryClient}>
@@ -27,6 +28,7 @@ function render(App: ComponentType) {
         </QueryClientProvider>
         {/*</RecoilRoot>*/}
       </ToastProvider>
+      {/* </SidebarProvider> */}
     </StrictMode>,
   );
 }

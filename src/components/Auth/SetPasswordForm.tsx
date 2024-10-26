@@ -2,10 +2,16 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { $api } from '@/openapi/api';
 import { ROUTE_AUTH_LOGIN } from '@/constant/route';
 import { showToast } from '../Toast/ToastManager';
+
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const schema = z
   .object({
@@ -56,41 +62,53 @@ const SetPasswordForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-6">
-      <h1 className="text-xl font-bold text-gray-900 dark:text-white">设置密码</h1>
-      <div>
-        <label htmlFor="password" className="input-label">
-          密码
-        </label>
-        <input
-          {...register('password')}
-          type="password"
-          id="password"
-          placeholder="••••••••"
-          className="input-primary"
-        />
-        {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>}
-      </div>
-      <div>
-        <label htmlFor="confirmPassword" className="input-label">
-          确认密码
-        </label>
-        <input
-          {...register('confirmPassword')}
-          type="password"
-          id="confirmPassword"
-          placeholder="••••••••"
-          className="input-primary"
-        />
-        {errors.confirmPassword && (
-          <p className="mt-1 text-sm text-red-600">{errors.confirmPassword.message}</p>
-        )}
-      </div>
-      {error && <p className="text-sm text-red-600">{error}</p>}
-      <button type="submit" className="btn-primary" disabled={isPending}>
-        {isPending ? '设置中...' : '设置密码并完成注册'}
-      </button>
-    </form>
+    <Card className="w-full max-w-md">
+      <CardHeader>
+        <CardTitle className="text-2xl font-bold">设置密码</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="password">密码</Label>
+            <Input {...register('password')} type="password" id="password" placeholder="••••••••" />
+            {errors.password && (
+              <p className="text-sm text-destructive">{errors.password.message}</p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="confirmPassword">确认密码</Label>
+            <Input
+              {...register('confirmPassword')}
+              type="password"
+              id="confirmPassword"
+              placeholder="••••••••"
+            />
+            {errors.confirmPassword && (
+              <p className="text-sm text-destructive">{errors.confirmPassword.message}</p>
+            )}
+          </div>
+
+          {error && (
+            <Alert variant="destructive">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+
+          <Button type="submit" className="w-full" disabled={isPending}>
+            {isPending ? '设置中...' : '设置密码并完成注册'}
+          </Button>
+        </form>
+      </CardContent>
+      <CardFooter>
+        <p className="text-sm text-muted-foreground">
+          已经有账户？{' '}
+          <Link to={ROUTE_AUTH_LOGIN} className="font-medium text-primary hover:underline">
+            返回登录
+          </Link>
+        </p>
+      </CardFooter>
+    </Card>
   );
 };
 

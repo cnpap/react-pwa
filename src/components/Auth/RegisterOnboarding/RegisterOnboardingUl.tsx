@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { AuthStep } from '@/components/Auth/RegisterOnboarding/RegisterOnboardingAccount/types';
+import { CheckCircle } from 'lucide-react';
 
 interface StepContentProps {
   number: number;
@@ -23,27 +24,16 @@ export const steps: Step[] = [
 function StepContent({ number, text, isCompleted, animate }: StepContentProps) {
   return (
     <div
-      className={`flex items-center sm:block after:content-['/'] sm:after:hidden after:mx-2 after:font-light after:text-gray-200 dark:after:text-gray-500 ${
-        animate ? 'animate-bounce-vertical' : ''
-      }`}
+      className={`flex items-center sm:flex-col sm:items-center ${animate ? 'animate-bounce' : ''}`}
     >
       {isCompleted ? (
-        <svg
-          className="w-4 h-4 mr-2 sm:mb-2 sm:w-6 sm:h-6 sm:mx-auto"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fillRule="evenodd"
-            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-            clipRule="evenodd"
-          ></path>
-        </svg>
+        <CheckCircle className="w-6 h-6 mb-2 text-primary" />
       ) : (
-        <div className="mr-2 sm:mb-2 sm:mx-auto">{number}</div>
+        <div className="w-6 h-6 mb-2 rounded-full bg-muted flex items-center justify-center text-muted-foreground">
+          {number}
+        </div>
       )}
-      <div className="w-16">{text}</div>
+      <div className="ml-2 sm:ml-0 w-16 text-sm">{text}</div>
     </div>
   );
 }
@@ -61,20 +51,16 @@ function Li({ number, text, isCompleted, isActive, isLast = false, animate }: Li
   return (
     <li
       className={`flex items-center ${isLast ? '' : 'flex-1'} ${
-        isCompleted || isActive ? 'text-primary-600 dark:text-primary-500' : ''
-      } ${
-        !isLast
-          ? "after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700"
-          : ''
+        isCompleted || isActive ? 'text-primary' : 'text-muted-foreground'
       }`}
     >
       <StepContent number={number} text={text} isCompleted={isCompleted} animate={animate} />
+      {!isLast && <div className="hidden sm:block w-full h-[1px] bg-border mx-2" />}
     </li>
   );
 }
 
 function RegisterOnboardingUl({ step }: { step: AuthStep }) {
-  // const currentStep = useMemo(() => steps.find((s) => s.key === step)?.number ?? 1, [step]);
   const currentStep = useMemo(() => steps.find((s) => s.keys.includes(step))?.number ?? 1, [step]);
   const [animateStep, setAnimateStep] = useState(-1);
   const [prevStep, setPrevStep] = useState(currentStep);
@@ -89,7 +75,7 @@ function RegisterOnboardingUl({ step }: { step: AuthStep }) {
   }, [currentStep, prevStep]);
 
   return (
-    <ol className="flex w-full items-center mb-6 text-sm font-medium text-center text-gray-500 dark:text-gray-400 lg:mb-8 sm:text-base">
+    <ol className="flex w-full items-center mb-6 text-sm font-medium text-center sm:text-base">
       {steps.map((step, index) => (
         <Li
           key={step.number}

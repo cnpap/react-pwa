@@ -13,6 +13,7 @@ const SupabaseCallback: React.FC = () => {
       const { data } = await supabase.auth.getSession();
 
       if (data?.session) {
+        window.localStorage.setItem('token', data.session.access_token);
         // 使用 axios 调用后端 API 来初始化用户数据
         $fetch.POST('/bues/account/init-by-supabase').then((res) => {
           if (res.data?.success) {

@@ -17,12 +17,12 @@ export type EmailFormProps = {
 
 export type AuthStep = 'email' | 'verification' | 'account' | 'success';
 
-export type VerificationFormProps = {
+export interface VerificationFormProps {
   email: string;
   verificationCode: string[];
   setVerificationCode: React.Dispatch<React.SetStateAction<string[]>>;
-  isVisible: boolean;
-} & StepState;
+  setStep: (step: AuthStep) => void;
+}
 
 export type AccountFormProps = {
   email: string;

@@ -39,7 +39,6 @@ export interface paths {
           content: {
             'application/json': {
               success: boolean;
-              message: string;
             };
           };
         };
@@ -84,7 +83,6 @@ export interface paths {
           content: {
             'application/json': {
               success: boolean;
-              message: string;
             };
           };
         };
@@ -158,8 +156,8 @@ export interface paths {
       requestBody?: {
         content: {
           'application/json': {
-            username: string;
             avatar_url: string | null;
+            username: string;
           };
         };
       };
@@ -172,7 +170,6 @@ export interface paths {
           content: {
             'application/json': {
               success: boolean;
-              data: Record<string, never>;
             };
           };
         };
@@ -214,8 +211,8 @@ export interface paths {
               data: {
                 list: {
                   project_id: string;
-                  id: string;
                   name: string | null;
+                  id: string;
                 }[];
               };
             };
@@ -229,7 +226,64 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/bues/application/restore/:applicationId': {
+  '/bues/account/info': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** 获取账户信息 */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description 请求成功 */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': {
+              success: boolean;
+              data: {
+                account: {
+                  id: string;
+                  avatar_url: string | null;
+                  email: string;
+                  phone: string | null;
+                  username: string;
+                };
+                projectList: {
+                  id: string;
+                  created_at: string;
+                  updated_at: string;
+                  description: string | null;
+                  max_applications: number;
+                  max_collaborators: number;
+                  name: string;
+                  plan: string;
+                }[];
+              };
+            };
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/bues/application/restore/{applicationId}': {
     parameters: {
       query?: never;
       header?: never;
@@ -244,9 +298,7 @@ export interface paths {
         query?: never;
         header?: never;
         path: {
-          params: {
-            applicationId: string;
-          };
+          applicationId: string;
         };
         cookie?: never;
       };
@@ -272,7 +324,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/bues/application/trash/:projectId': {
+  '/bues/application/trash/{projectId}': {
     parameters: {
       query?: never;
       header?: never;
@@ -285,9 +337,7 @@ export interface paths {
         query?: never;
         header?: never;
         path: {
-          params: {
-            projectId: string;
-          };
+          projectId: string;
         };
         cookie?: never;
       };
@@ -304,9 +354,9 @@ export interface paths {
               data: {
                 id: string;
                 created_at: string;
+                updated_at: string;
                 description: string | null;
                 name: string;
-                updated_at: string;
                 version: number;
               }[];
             };
@@ -322,7 +372,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/bues/application/delete/:applicationId': {
+  '/bues/application/delete/{applicationId}': {
     parameters: {
       query?: never;
       header?: never;
@@ -337,9 +387,7 @@ export interface paths {
         query?: never;
         header?: never;
         path: {
-          params: {
-            applicationId: string;
-          };
+          applicationId: string;
         };
         cookie?: never;
       };
@@ -365,7 +413,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/bues/application/list/:projectId': {
+  '/bues/application/list/{projectId}': {
     parameters: {
       query?: never;
       header?: never;
@@ -378,9 +426,7 @@ export interface paths {
         query?: never;
         header?: never;
         path: {
-          params: {
-            projectId: string;
-          };
+          projectId: string;
         };
         cookie?: never;
       };
@@ -397,9 +443,9 @@ export interface paths {
               data: {
                 id: string;
                 created_at: string;
+                updated_at: string;
                 description: string | null;
                 name: string;
-                updated_at: string;
                 version: number;
               }[];
             };
@@ -482,9 +528,9 @@ export interface paths {
       requestBody?: {
         content: {
           'application/json': {
-            project_id: string;
             description: string | null;
             name: string;
+            project_id: string;
           };
         };
       };
@@ -543,9 +589,6 @@ export interface paths {
           content: {
             'application/json': {
               success: boolean;
-              data: {
-                message: string;
-              };
             };
           };
         };
@@ -637,9 +680,6 @@ export interface paths {
           content: {
             'application/json': {
               success: boolean;
-              data: {
-                message: string;
-              };
             };
           };
         };
@@ -683,7 +723,13 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['VerificationResult'];
+            'application/json': {
+              success: boolean;
+              data: {
+                token: string;
+                id: string;
+              };
+            };
           };
         };
       };
@@ -739,7 +785,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/bues/environment-variable/list/:projectId': {
+  '/bues/environment-variable/list/{projectId}': {
     parameters: {
       query?: never;
       header?: never;
@@ -752,9 +798,7 @@ export interface paths {
         query?: never;
         header?: never;
         path: {
-          params: {
-            projectId: string;
-          };
+          projectId: string;
         };
         cookie?: never;
       };
@@ -769,12 +813,12 @@ export interface paths {
             'application/json': {
               success: boolean;
               data: {
-                project_id: string;
-                deleted_flag: boolean | null;
                 id: string;
                 created_at: string | null;
-                name: string;
+                deleted_flag: boolean | null;
                 updated_at: string | null;
+                name: string;
+                project_id: string;
                 value: string;
                 format: components['schemas']['VariableFormat'];
               }[];
@@ -791,7 +835,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/bues/environment-variable/delete/:id': {
+  '/bues/environment-variable/delete/{id}': {
     parameters: {
       query?: never;
       header?: never;
@@ -806,9 +850,7 @@ export interface paths {
         query?: never;
         header?: never;
         path: {
-          params: {
-            id: string;
-          };
+          id: string;
         };
         cookie?: never;
       };
@@ -902,8 +944,8 @@ export interface paths {
       requestBody?: {
         content: {
           'application/json': {
-            project_id: string;
             name: string;
+            project_id: string;
             value: string;
             format: 'env' | 'json' | 'yaml';
           };
@@ -976,6 +1018,54 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/bues/project/member-list/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** 查询项目成员列表 */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description 请求成功 */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': {
+              success: boolean;
+              data: {
+                members: {
+                  avatar_url: string | null;
+                  username: string;
+                  id: string;
+                  is_owner: boolean | null;
+                }[];
+              };
+            };
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/bues/project/': {
     parameters: {
       query?: never;
@@ -1002,15 +1092,17 @@ export interface paths {
             'application/json': {
               success: boolean;
               data: {
-                id: string;
-                created_at: string | null;
-                description: string | null;
-                max_applications: number | null;
-                max_collaborators: number | null;
-                name: string;
-                slug: string;
-                updated_at: string | null;
-              }[];
+                projects: {
+                  id: string;
+                  created_at: string;
+                  updated_at: string;
+                  description: string | null;
+                  max_applications: number;
+                  max_collaborators: number;
+                  name: string;
+                  plan: string;
+                }[];
+              };
             };
           };
         };
@@ -1024,7 +1116,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/bues/project/:projectId': {
+  '/bues/project/{id}': {
     parameters: {
       query?: never;
       header?: never;
@@ -1037,9 +1129,7 @@ export interface paths {
         query?: never;
         header?: never;
         path: {
-          params: {
-            projectId: string;
-          };
+          id: string;
         };
         cookie?: never;
       };
@@ -1054,16 +1144,18 @@ export interface paths {
             'application/json': {
               success: boolean;
               data: {
-                deleted_flag: boolean | null;
-                id: string;
-                user_id: string;
-                created_at: string | null;
-                description: string | null;
-                max_applications: number | null;
-                max_collaborators: number | null;
-                name: string;
-                slug: string;
-                updated_at: string | null;
+                project: {
+                  id: string;
+                  created_at: string;
+                  deleted_flag: boolean;
+                  updated_at: string;
+                  description: string | null;
+                  max_applications: number;
+                  max_collaborators: number;
+                  name: string;
+                  plan: string;
+                  user_id: string;
+                };
               };
             };
           };
@@ -1078,9 +1170,7 @@ export interface paths {
         query?: never;
         header?: never;
         path: {
-          params: {
-            projectId: string;
-          };
+          id: string;
         };
         cookie?: never;
       };
@@ -1094,7 +1184,6 @@ export interface paths {
           content: {
             'application/json': {
               success: boolean;
-              data: Record<string, never>;
             };
           };
         };
@@ -1127,7 +1216,6 @@ export interface paths {
           'application/json': {
             description: string | null;
             name: string;
-            slug: string;
           };
         };
       };
@@ -1187,7 +1275,6 @@ export interface paths {
           content: {
             'application/json': {
               success: boolean;
-              data: Record<string, never>;
             };
           };
         };
@@ -1219,8 +1306,8 @@ export interface paths {
       requestBody?: {
         content: {
           'application/json': {
-            project_id: string;
             email: string;
+            project_id: string;
           };
         };
       };
@@ -1233,7 +1320,6 @@ export interface paths {
           content: {
             'application/json': {
               success: boolean;
-              data: Record<string, never>;
             };
           };
         };
@@ -1245,7 +1331,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/bues/project/accept-invite/:id': {
+  '/bues/project/accept-invite/{id}': {
     parameters: {
       query?: never;
       header?: never;
@@ -1260,9 +1346,7 @@ export interface paths {
         query?: never;
         header?: never;
         path: {
-          params: {
-            id: string;
-          };
+          id: string;
         };
         cookie?: never;
       };
@@ -1276,7 +1360,6 @@ export interface paths {
           content: {
             'application/json': {
               success: boolean;
-              data: Record<string, never>;
             };
           };
         };
@@ -1333,14 +1416,6 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
-    VerificationResult: {
-      success: boolean;
-      message: string;
-      data: {
-        token: string;
-        id: string;
-      };
-    };
     VariableFormat: 'env' | 'json' | 'yaml';
   };
   responses: never;

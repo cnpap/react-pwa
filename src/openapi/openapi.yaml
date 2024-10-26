@@ -15,11 +15,8 @@ paths:
                 properties:
                   success:
                     type: boolean
-                  message:
-                    type: string
                 required:
                   - success
-                  - message
       parameters: []
       tags:
         - 账号
@@ -50,11 +47,8 @@ paths:
                 properties:
                   success:
                     type: boolean
-                  message:
-                    type: string
                 required:
                   - success
-                  - message
       parameters: []
       tags:
         - 账号
@@ -110,12 +104,8 @@ paths:
                 properties:
                   success:
                     type: boolean
-                  data:
-                    type: object
-                    properties: {}
                 required:
                   - success
-                  - data
       parameters: []
       tags:
         - 账号
@@ -126,15 +116,15 @@ paths:
             schema:
               type: object
               properties:
-                username:
-                  type: string
                 avatar_url:
                   anyOf:
                     - type: string
                     - type: 'null'
+                username:
+                  type: string
               required:
-                - username
                 - avatar_url
+                - username
   /bues/account/my-invite:
     post:
       responses:
@@ -157,16 +147,16 @@ paths:
                           properties:
                             project_id:
                               type: string
-                            id:
-                              type: string
                             name:
                               anyOf:
                                 - type: string
                                 - type: 'null'
+                            id:
+                              type: string
                           required:
                             - project_id
-                            - id
                             - name
+                            - id
                     required:
                       - list
                 required:
@@ -176,7 +166,87 @@ paths:
       tags:
         - 账号
       summary: 获取我的邀请列表
-  /bues/application/restore/:applicationId:
+  /bues/account/info:
+    get:
+      responses:
+        '200':
+          description: 请求成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      account:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          avatar_url:
+                            anyOf:
+                              - type: string
+                              - type: 'null'
+                          email:
+                            type: string
+                          phone:
+                            anyOf:
+                              - type: string
+                              - type: 'null'
+                          username:
+                            type: string
+                        required:
+                          - id
+                          - avatar_url
+                          - email
+                          - phone
+                          - username
+                      projectList:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            created_at:
+                              type: string
+                            updated_at:
+                              type: string
+                            description:
+                              anyOf:
+                                - type: string
+                                - type: 'null'
+                            max_applications:
+                              type: number
+                            max_collaborators:
+                              type: number
+                            name:
+                              type: string
+                            plan:
+                              type: string
+                          required:
+                            - id
+                            - created_at
+                            - updated_at
+                            - description
+                            - max_applications
+                            - max_collaborators
+                            - name
+                            - plan
+                    required:
+                      - account
+                      - projectList
+                required:
+                  - success
+                  - data
+      parameters: []
+      tags:
+        - 账号
+      summary: 获取账户信息
+  /bues/application/restore/{applicationId}:
     post:
       responses:
         '200':
@@ -195,19 +265,14 @@ paths:
                   - success
                   - data
       parameters:
-        - name: params
+        - name: applicationId
           in: path
           schema:
-            type: object
-            properties:
-              applicationId:
-                type: string
-            required:
-              - applicationId
+            type: string
       tags:
         - 应用
       summary: 恢复已删除的应用
-  /bues/application/trash/:projectId:
+  /bues/application/trash/{projectId}:
     get:
       responses:
         '200':
@@ -228,40 +293,35 @@ paths:
                           type: string
                         created_at:
                           type: string
+                        updated_at:
+                          type: string
                         description:
                           anyOf:
                             - type: string
                             - type: 'null'
                         name:
                           type: string
-                        updated_at:
-                          type: string
                         version:
                           type: number
                       required:
                         - id
                         - created_at
+                        - updated_at
                         - description
                         - name
-                        - updated_at
                         - version
                 required:
                   - success
                   - data
       parameters:
-        - name: params
+        - name: projectId
           in: path
           schema:
-            type: object
-            properties:
-              projectId:
-                type: string
-            required:
-              - projectId
+            type: string
       tags:
         - 应用
       summary: 查询垃圾桶中的应用
-  /bues/application/delete/:applicationId:
+  /bues/application/delete/{applicationId}:
     post:
       responses:
         '200':
@@ -280,19 +340,14 @@ paths:
                   - success
                   - data
       parameters:
-        - name: params
+        - name: applicationId
           in: path
           schema:
-            type: object
-            properties:
-              applicationId:
-                type: string
-            required:
-              - applicationId
+            type: string
       tags:
         - 应用
       summary: 删除应用
-  /bues/application/list/:projectId:
+  /bues/application/list/{projectId}:
     get:
       responses:
         '200':
@@ -313,36 +368,31 @@ paths:
                           type: string
                         created_at:
                           type: string
+                        updated_at:
+                          type: string
                         description:
                           anyOf:
                             - type: string
                             - type: 'null'
                         name:
                           type: string
-                        updated_at:
-                          type: string
                         version:
                           type: number
                       required:
                         - id
                         - created_at
+                        - updated_at
                         - description
                         - name
-                        - updated_at
                         - version
                 required:
                   - success
                   - data
       parameters:
-        - name: params
+        - name: projectId
           in: path
           schema:
-            type: object
-            properties:
-              projectId:
-                type: string
-            required:
-              - projectId
+            type: string
       tags:
         - 应用
       summary: 查询应用列表
@@ -415,18 +465,18 @@ paths:
             schema:
               type: object
               properties:
-                project_id:
-                  type: string
                 description:
                   anyOf:
                     - type: string
                     - type: 'null'
                 name:
                   type: string
+                project_id:
+                  type: string
               required:
-                - project_id
                 - description
                 - name
+                - project_id
   /bues/auth/reset-password:
     post:
       responses:
@@ -439,16 +489,8 @@ paths:
                 properties:
                   success:
                     type: boolean
-                  data:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-                    required:
-                      - message
                 required:
                   - success
-                  - data
       parameters: []
       tags:
         - 认证
@@ -506,16 +548,8 @@ paths:
                 properties:
                   success:
                     type: boolean
-                  data:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-                    required:
-                      - message
                 required:
                   - success
-                  - data
       parameters: []
       tags:
         - 认证
@@ -547,7 +581,23 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VerificationResult'
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                      id:
+                        type: string
+                    required:
+                      - token
+                      - id
+                required:
+                  - success
+                  - data
       parameters: []
       tags:
         - 认证
@@ -596,7 +646,7 @@ paths:
                   type: string
               required:
                 - email
-  /bues/environment-variable/list/:projectId:
+  /bues/environment-variable/list/{projectId}:
     get:
       responses:
         '200':
@@ -613,54 +663,49 @@ paths:
                     items:
                       type: object
                       properties:
-                        project_id:
-                          type: string
-                        deleted_flag:
-                          anyOf:
-                            - type: boolean
-                            - type: 'null'
                         id:
                           type: string
                         created_at:
                           anyOf:
                             - type: string
                             - type: 'null'
-                        name:
-                          type: string
+                        deleted_flag:
+                          anyOf:
+                            - type: boolean
+                            - type: 'null'
                         updated_at:
                           anyOf:
                             - type: string
                             - type: 'null'
+                        name:
+                          type: string
+                        project_id:
+                          type: string
                         value:
                           type: string
                         format:
                           $ref: '#/components/schemas/VariableFormat'
                       required:
-                        - project_id
-                        - deleted_flag
                         - id
                         - created_at
-                        - name
+                        - deleted_flag
                         - updated_at
+                        - name
+                        - project_id
                         - value
                         - format
                 required:
                   - success
                   - data
       parameters:
-        - name: params
+        - name: projectId
           in: path
           schema:
-            type: object
-            properties:
-              projectId:
-                type: string
-            required:
-              - projectId
+            type: string
       tags:
         - 环境变量
       summary: 获取项目的环境变量列表
-  /bues/environment-variable/delete/:id:
+  /bues/environment-variable/delete/{id}:
     post:
       responses:
         '200':
@@ -679,15 +724,10 @@ paths:
                   - success
                   - data
       parameters:
-        - name: params
+        - name: id
           in: path
           schema:
-            type: object
-            properties:
-              id:
-                type: string
-            required:
-              - id
+            type: string
       tags:
         - 环境变量
       summary: 删除环境变量
@@ -767,9 +807,9 @@ paths:
             schema:
               type: object
               properties:
-                project_id:
-                  type: string
                 name:
+                  type: string
+                project_id:
                   type: string
                 value:
                   type: string
@@ -782,8 +822,8 @@ paths:
                     - type: string
                       const: yaml
               required:
-                - project_id
                 - name
+                - project_id
                 - value
                 - format
   /bues/interface-version-change/submit:
@@ -819,6 +859,56 @@ paths:
                 change_details: {}
               required:
                 - application_id
+  /bues/project/member-list/{id}:
+    get:
+      responses:
+        '200':
+          description: 请求成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      members:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            avatar_url:
+                              anyOf:
+                                - type: string
+                                - type: 'null'
+                            username:
+                              type: string
+                            id:
+                              type: string
+                            is_owner:
+                              anyOf:
+                                - type: boolean
+                                - type: 'null'
+                          required:
+                            - avatar_url
+                            - username
+                            - id
+                            - is_owner
+                    required:
+                      - members
+                required:
+                  - success
+                  - data
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+      tags:
+        - 项目
+      summary: 查询项目成员列表
   /bues/project/:
     get:
       responses:
@@ -832,45 +922,42 @@ paths:
                   success:
                     type: boolean
                   data:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        id:
-                          type: string
-                        created_at:
-                          anyOf:
-                            - type: string
-                            - type: 'null'
-                        description:
-                          anyOf:
-                            - type: string
-                            - type: 'null'
-                        max_applications:
-                          anyOf:
-                            - type: number
-                            - type: 'null'
-                        max_collaborators:
-                          anyOf:
-                            - type: number
-                            - type: 'null'
-                        name:
-                          type: string
-                        slug:
-                          type: string
-                        updated_at:
-                          anyOf:
-                            - type: string
-                            - type: 'null'
-                      required:
-                        - id
-                        - created_at
-                        - description
-                        - max_applications
-                        - max_collaborators
-                        - name
-                        - slug
-                        - updated_at
+                    type: object
+                    properties:
+                      projects:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            created_at:
+                              type: string
+                            updated_at:
+                              type: string
+                            description:
+                              anyOf:
+                                - type: string
+                                - type: 'null'
+                            max_applications:
+                              type: number
+                            max_collaborators:
+                              type: number
+                            name:
+                              type: string
+                            plan:
+                              type: string
+                          required:
+                            - id
+                            - created_at
+                            - updated_at
+                            - description
+                            - max_applications
+                            - max_collaborators
+                            - name
+                            - plan
+                    required:
+                      - projects
                 required:
                   - success
                   - data
@@ -878,7 +965,7 @@ paths:
       tags:
         - 项目
       summary: 查询项目列表
-  /bues/project/:projectId:
+  /bues/project/{id}:
     delete:
       responses:
         '200':
@@ -890,22 +977,13 @@ paths:
                 properties:
                   success:
                     type: boolean
-                  data:
-                    type: object
-                    properties: {}
                 required:
                   - success
-                  - data
       parameters:
-        - name: params
+        - name: id
           in: path
           schema:
-            type: object
-            properties:
-              projectId:
-                type: string
-            required:
-              - projectId
+            type: string
       tags:
         - 项目
       summary: 删除项目
@@ -923,62 +1001,52 @@ paths:
                   data:
                     type: object
                     properties:
-                      deleted_flag:
-                        anyOf:
-                          - type: boolean
-                          - type: 'null'
-                      id:
-                        type: string
-                      user_id:
-                        type: string
-                      created_at:
-                        anyOf:
-                          - type: string
-                          - type: 'null'
-                      description:
-                        anyOf:
-                          - type: string
-                          - type: 'null'
-                      max_applications:
-                        anyOf:
-                          - type: number
-                          - type: 'null'
-                      max_collaborators:
-                        anyOf:
-                          - type: number
-                          - type: 'null'
-                      name:
-                        type: string
-                      slug:
-                        type: string
-                      updated_at:
-                        anyOf:
-                          - type: string
-                          - type: 'null'
+                      project:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          created_at:
+                            type: string
+                          deleted_flag:
+                            type: boolean
+                          updated_at:
+                            type: string
+                          description:
+                            anyOf:
+                              - type: string
+                              - type: 'null'
+                          max_applications:
+                            type: number
+                          max_collaborators:
+                            type: number
+                          name:
+                            type: string
+                          plan:
+                            type: string
+                          user_id:
+                            type: string
+                        required:
+                          - id
+                          - created_at
+                          - deleted_flag
+                          - updated_at
+                          - description
+                          - max_applications
+                          - max_collaborators
+                          - name
+                          - plan
+                          - user_id
                     required:
-                      - deleted_flag
-                      - id
-                      - user_id
-                      - created_at
-                      - description
-                      - max_applications
-                      - max_collaborators
-                      - name
-                      - slug
-                      - updated_at
+                      - project
                 required:
                   - success
                   - data
       parameters:
-        - name: params
+        - name: id
           in: path
           schema:
-            type: object
-            properties:
-              projectId:
-                type: string
-            required:
-              - projectId
+            type: string
       tags:
         - 项目
       summary: 查询项目
@@ -1016,12 +1084,9 @@ paths:
                     - type: 'null'
                 name:
                   type: string
-                slug:
-                  type: string
               required:
                 - description
                 - name
-                - slug
   /bues/project/update:
     post:
       responses:
@@ -1034,12 +1099,8 @@ paths:
                 properties:
                   success:
                     type: boolean
-                  data:
-                    type: object
-                    properties: {}
                 required:
                   - success
-                  - data
       parameters: []
       tags:
         - 项目
@@ -1075,12 +1136,8 @@ paths:
                 properties:
                   success:
                     type: boolean
-                  data:
-                    type: object
-                    properties: {}
                 required:
                   - success
-                  - data
       parameters: []
       tags:
         - 项目
@@ -1091,14 +1148,14 @@ paths:
             schema:
               type: object
               properties:
-                project_id:
-                  type: string
                 email:
                   type: string
+                project_id:
+                  type: string
               required:
-                - project_id
                 - email
-  /bues/project/accept-invite/:id:
+                - project_id
+  /bues/project/accept-invite/{id}:
     post:
       responses:
         '200':
@@ -1110,22 +1167,13 @@ paths:
                 properties:
                   success:
                     type: boolean
-                  data:
-                    type: object
-                    properties: {}
                 required:
                   - success
-                  - data
       parameters:
-        - name: params
+        - name: id
           in: path
           schema:
-            type: object
-            properties:
-              id:
-                type: string
-            required:
-              - id
+            type: string
       tags:
         - 项目
       summary: 接受项目邀请
@@ -1157,27 +1205,6 @@ paths:
       summary: 头像上传签名 URL
 components:
   schemas:
-    VerificationResult:
-      type: object
-      properties:
-        success:
-          type: boolean
-        message:
-          type: string
-        data:
-          type: object
-          properties:
-            token:
-              type: string
-            id:
-              type: string
-          required:
-            - token
-            - id
-      required:
-        - success
-        - message
-        - data
     VariableFormat:
       anyOf:
         - type: string
