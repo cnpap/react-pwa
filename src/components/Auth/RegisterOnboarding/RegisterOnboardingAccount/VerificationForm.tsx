@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import { VerificationFormProps } from './types';
 import { $fetch } from '@/openapi/api';
-import { LOCAL_STORAGE_VERIFICATION_CODE } from '@/constant/route';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
+import { $local } from '@/store/browser/local';
 
 function VerificationForm({
   email,
@@ -25,7 +25,7 @@ function VerificationForm({
               newCode[index + i] = digit;
             }
           });
-          window.localStorage.setItem(LOCAL_STORAGE_VERIFICATION_CODE, newCode.join(''));
+          $local.setItem('verificationCode', newCode.join(''));
           return newCode;
         });
         const nextEmptyIndex = pastedValue.length + index;
@@ -45,7 +45,7 @@ function VerificationForm({
               document.getElementById(`code-${index + 2}`)?.focus();
             }
           }
-          window.localStorage.setItem(LOCAL_STORAGE_VERIFICATION_CODE, newCode.join(''));
+          $local.setItem('verificationCode', newCode.join(''));
           return newCode;
         });
       }
@@ -64,8 +64,8 @@ function VerificationForm({
         },
       });
       if (data?.success) {
-        window.localStorage.setItem('token', data.data.token);
-        window.localStorage.setItem('id', data.data.id);
+        $local.setItem('token', data.data.token);
+        $local.setItem('uid', data.data.id);
         setStep('account');
       }
     } finally {
@@ -79,7 +79,7 @@ function VerificationForm({
         setVerificationCode((prevCode) => {
           const newCode = [...prevCode];
           newCode[index - 1] = '';
-          window.localStorage.setItem(LOCAL_STORAGE_VERIFICATION_CODE, newCode.join(''));
+          $local.setItem('verificationCode', newCode.join(''));
           return newCode;
         });
         document.getElementById(`code-${index}`)?.focus();
@@ -90,7 +90,7 @@ function VerificationForm({
 
   const handlePreviousStep = useCallback(() => {
     setVerificationCode(['', '', '', '', '', '']);
-    window.localStorage.removeItem(LOCAL_STORAGE_VERIFICATION_CODE);
+    $local.removeItem('verificationCode');
     setStep('email');
   }, [setVerificationCode, setStep]);
 

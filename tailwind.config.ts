@@ -6,6 +6,11 @@ const config: Config = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 4px)',
+        sm: 'calc(var(--radius) - 6px)',
+      },
       animation: {
         'spin-slow': 'spin 3s linear infinite',
         'bounce-vertical': 'bounce-vertical 0.5s ease-in-out',

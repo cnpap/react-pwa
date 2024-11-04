@@ -5,18 +5,18 @@ import AccountForm from './AccountForm';
 import Countdown from './Countdown'; // 导入 Countdown 组件
 import { AuthStep, RegisterOnboardingAccountProps } from './types';
 import { useMount } from 'ahooks';
-import { LOCAL_STORAGE_STEP_EMAIL, LOCAL_STORAGE_STEP } from '@/constant/route';
+import { $local } from '@/store/browser/local';
 
 function RegisterOnboardingAccount({ onSuccess, step, setStep }: RegisterOnboardingAccountProps) {
   const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState(['', '', '', '', '', '']);
 
   useMount(() => {
-    const step = window.localStorage.getItem(LOCAL_STORAGE_STEP);
+    const step = $local.getItem('step');
     if (step) {
       setStep(step as AuthStep);
     }
-    const email = window.localStorage.getItem(LOCAL_STORAGE_STEP_EMAIL);
+    const email = $local.getItem('stepEmail');
     if (email) {
       setEmail(email);
     }
@@ -24,7 +24,7 @@ function RegisterOnboardingAccount({ onSuccess, step, setStep }: RegisterOnboard
 
   const handleSetStep = (step: AuthStep) => {
     setStep(step);
-    window.localStorage.setItem(LOCAL_STORAGE_STEP, step);
+    $local.setItem('step', step);
   };
 
   return (

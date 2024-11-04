@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { EmailFormProps } from './types';
 import { $fetch } from '@/openapi/api';
-import { LOCAL_STORAGE_STEP_EMAIL } from '@/constant/route';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loader2 } from 'lucide-react';
+import { $local } from '@/store/browser/local';
 
 function EmailForm({ email, setEmail, setStep }: EmailFormProps) {
   const [isLoading, setIsLoading] = useState(false);
@@ -18,7 +18,7 @@ function EmailForm({ email, setEmail, setStep }: EmailFormProps) {
         body: { email },
       });
       if (data?.success) {
-        window.localStorage.setItem(LOCAL_STORAGE_STEP_EMAIL, email);
+        $local.setItem('stepEmail', email);
         setStep('verification');
       }
     } finally {

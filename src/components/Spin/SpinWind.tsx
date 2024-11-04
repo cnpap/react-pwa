@@ -2,12 +2,15 @@ import React from 'react';
 
 interface SpinWindProps {
   fullscreen?: boolean;
+  reducedSize?: boolean;
 }
 
-function SpinWind({ fullscreen = false }: SpinWindProps) {
+function SpinWind({ fullscreen = false, reducedSize = true }: SpinWindProps) {
   const containerClasses = fullscreen
     ? 'fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm'
-    : 'absolute inset-0 z-10 flex items-center justify-center bg-background/80 backdrop-blur-sm';
+    : `absolute ${
+        reducedSize ? 'inset-2' : 'inset-0'
+      } z-10 flex items-center justify-center bg-background/80 backdrop-blur-sm`;
 
   return (
     <div className={containerClasses}>

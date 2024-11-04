@@ -4,6 +4,7 @@ import { supabase } from '@/utils/supabase';
 import { $fetch } from '@/openapi/api';
 import SpinWind from '@/components/Spin/SpinWind';
 import { useMount } from 'ahooks';
+import { $local } from '@/store/browser/local';
 
 const SupabaseCallback: React.FC = () => {
   const navigate = useNavigate();
@@ -13,11 +14,11 @@ const SupabaseCallback: React.FC = () => {
       const { data } = await supabase.auth.getSession();
 
       if (data?.session) {
-        window.localStorage.setItem('token', data.session.access_token);
+        $local.setItem('token', data.session.access_token);
         // 使用 axios 调用后端 API 来初始化用户数据
         $fetch.POST('/bues/account/init-by-supabase').then((res) => {
           if (res.data?.success) {
-            localStorage.setItem('token', res.data.data.token);
+            $local.setItem('token', res.data.data.token);
             navigate('/dashboard');
           } else {
             // noinspection ExceptionCaughtLocallyJS

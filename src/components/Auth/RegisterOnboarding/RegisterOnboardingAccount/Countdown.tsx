@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useMount } from 'ahooks';
-import {
-  LOCAL_STORAGE_STEP,
-  LOCAL_STORAGE_STEP_EMAIL,
-  LOCAL_STORAGE_VERIFICATION_CODE,
-} from '@/constant/route';
 import { Loader2 } from 'lucide-react';
+import { $local } from '@/store/browser/local';
 
 type CountdownProps = {
   duration: number; // 倒计时时间（秒）
@@ -16,9 +12,9 @@ const Countdown: React.FC<CountdownProps> = ({ duration, onComplete }) => {
   const [timeLeft, setTimeLeft] = useState(duration);
 
   useMount(() => {
-    window.localStorage.removeItem(LOCAL_STORAGE_STEP);
-    window.localStorage.removeItem(LOCAL_STORAGE_STEP_EMAIL);
-    window.localStorage.removeItem(LOCAL_STORAGE_VERIFICATION_CODE);
+    $local.removeItem('step');
+    $local.removeItem('stepEmail');
+    $local.removeItem('verificationCode');
   });
 
   useEffect(() => {

@@ -4,6 +4,7 @@ import { HelmetProvider } from 'react-helmet-async';
 // import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ToastProvider } from './components/Toast/ToastManager';
+import { Toaster } from './components/ui/toaster';
 
 // import ThemeProvider from '@/theme/Provider';
 
@@ -28,6 +29,7 @@ function render(App: ComponentType) {
         </QueryClientProvider>
         {/*</RecoilRoot>*/}
       </ToastProvider>
+      <Toaster />
       {/* </SidebarProvider> */}
     </StrictMode>,
   );

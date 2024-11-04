@@ -1,8 +1,10 @@
 import React from 'react';
 
+export type SetStep = (step: AuthStep) => void;
+
 export type StepState = {
   step: AuthStep;
-  setStep: (step: AuthStep) => void;
+  setStep: SetStep;
 };
 
 export type RegisterOnboardingAccountProps = {
@@ -12,8 +14,8 @@ export type RegisterOnboardingAccountProps = {
 export type EmailFormProps = {
   email: string;
   setEmail: (email: string) => void;
-  isVisible: boolean;
-} & StepState;
+  setStep: SetStep;
+};
 
 export type AuthStep = 'email' | 'verification' | 'account' | 'success';
 
@@ -27,5 +29,5 @@ export interface VerificationFormProps {
 export type AccountFormProps = {
   email: string;
   verificationCode: string[];
-  isVisible: boolean;
-} & StepState;
+  setStep: SetStep;
+};

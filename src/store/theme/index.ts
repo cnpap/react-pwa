@@ -5,6 +5,7 @@ import { Themes } from '@/theme/types';
 
 import type { AtomEffectParams } from '../types';
 import type { Actions } from './types';
+import { $local } from '../browser/local';
 
 const themeModeState = atom({
   key: 'theme-mode-state',
@@ -13,9 +14,9 @@ const themeModeState = atom({
 });
 
 function synchronizeWithLocalStorage({ setSelf, onSet }: AtomEffectParams) {
-  const storedTheme = localStorage.getItem('theme-mode');
+  const storedTheme = $local.getItem('theme-mode');
   storedTheme && setSelf(storedTheme);
-  onSet((value: Themes) => localStorage.setItem('theme-mode', value));
+  onSet((value: Themes) => $local.setItem('theme-mode', value));
 }
 
 function useTheme(): [Themes, Actions] {
