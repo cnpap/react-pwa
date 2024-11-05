@@ -11,3 +11,7 @@ export const ROUTE_AUTH_SET_PASSWORD = '/auth/set-password';
 export const ROUTE_AUTH_FORGOT_PASSWORD = '/auth/forgot-password';
 
 export const ROUTE_DASHBOARD = '/dashboard';
+
+export const ROUTE_DASHBOARD_HOME = '/dashboard/';
+
+export const ROUTE_DASHBOARD_ENVIRONMENT_VARIABLE = '/dashboard/environment-variable';

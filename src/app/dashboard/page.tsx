@@ -1,25 +1,23 @@
 import { AppSidebar } from '@/components/app-sidebar';
-import { TokenValumOfUse } from '@/components/Charts/TokenValumOfUse';
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { Separator } from '@/components/ui/separator';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-
+import { Link, Outlet } from 'react-router-dom';
 function Header() {
   return (
-    <header className="flex h-16 shrink-0 items-center gap-2 px-4 bg-background">
+    <header className="flex bg-background h-16 shrink-0 items-center gap-2 px-4">
       <SidebarTrigger className="-ml-1" />
       <Separator orientation="vertical" className="mr-2 h-4" />
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem className="hidden md:block">
-            <BreadcrumbLink href="#">Building Your Application</BreadcrumbLink>
+            <Link to="/dashboard">首页</Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator className="hidden md:block" />
           <BreadcrumbItem>
@@ -39,18 +37,12 @@ export default function Page() {
         <div className="hidden md:block sticky top-0 z-10 border-b">
           <Header />
         </div>
-        <div className="flex flex-1 flex-col gap-4 p-4">
-          <TokenValumOfUse />
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div className="aspect-video rounded-xl bg-muted/50" />
-            <div className="aspect-video rounded-xl bg-muted/50" />
-            <div className="aspect-video rounded-xl bg-muted/50" />
-          </div>
-          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
+        <div className="flex flex-1 flex-col">
+          <Outlet />
         </div>
-        <div className="md:hidden h-16 shrink-0" /> {/* 移动端底部占位 */}
+        <div className="md:hidden h-16 shrink-0" />
       </SidebarInset>
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-background border-t">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 border-t">
         <Header />
       </div>
     </SidebarProvider>

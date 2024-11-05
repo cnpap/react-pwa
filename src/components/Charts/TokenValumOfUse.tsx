@@ -139,75 +139,83 @@ export function TokenValumOfUse() {
   );
 
   return (
-    <Card className="shadow-none">
-      <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
-        <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
-          <CardTitle>Token 损耗图表</CardTitle>
-          <CardDescription>显示过去3个月不同模型的 token 损耗</CardDescription>
-        </div>
-        <div className="flex">
-          {['gpt3', 'gpt4', 'claude'].map((key) => {
-            const model = key as keyof typeof chartConfig;
-            return (
-              <button
-                key={model}
-                data-active={activeModel === model}
-                className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-4 py-4 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
-                onClick={() => setActiveModel(model)}
-              >
-                <span className="text-xs text-muted-foreground">{chartConfig[model].label}</span>
-                <span className="text-lg font-bold leading-none sm:text-3xl">
-                  {total[model as keyof typeof total].toLocaleString()}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </CardHeader>
-      <CardContent className="px-2 sm:p-6">
-        <ChartContainer config={chartConfig} className="aspect-auto h-[250px] w-full">
-          <BarChart
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              left: 12,
-              right: 12,
-            }}
-          >
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="date"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              minTickGap={32}
-              tickFormatter={(value) => {
-                const date = new Date(value);
-                return date.toLocaleDateString('zh-CN', {
-                  month: 'short',
-                  day: 'numeric',
-                });
+    <div className="flex flex-col gap-4 p-4">
+      <Card className="shadow-sm">
+        <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
+          <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
+            <CardTitle>Token 损耗图表</CardTitle>
+            <CardDescription>显示过去3个月不同模型的 token 损耗</CardDescription>
+          </div>
+          <div className="flex">
+            {['gpt3', 'gpt4', 'claude'].map((key) => {
+              const model = key as keyof typeof chartConfig;
+              return (
+                <button
+                  key={model}
+                  data-active={activeModel === model}
+                  className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-4 py-4 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
+                  onClick={() => setActiveModel(model)}
+                >
+                  <span className="text-xs text-muted-foreground">{chartConfig[model].label}</span>
+                  <span className="text-lg font-bold leading-none sm:text-3xl">
+                    {total[model as keyof typeof total].toLocaleString()}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </CardHeader>
+        <CardContent className="px-2 sm:p-6">
+          <ChartContainer config={chartConfig} className="aspect-auto h-[250px] w-full">
+            <BarChart
+              accessibilityLayer
+              data={chartData}
+              margin={{
+                left: 12,
+                right: 12,
               }}
-            />
-            <ChartTooltip
-              content={
-                <ChartTooltipContent
-                  className="w-[150px]"
-                  nameKey="tokens"
-                  labelFormatter={(value) => {
-                    return new Date(value).toLocaleDateString('zh-CN', {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                    });
-                  }}
-                />
-              }
-            />
-            <Bar dataKey={activeModel} fill={`var(--color-${activeModel})`} />
-          </BarChart>
-        </ChartContainer>
-      </CardContent>
-    </Card>
+            >
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="date"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                minTickGap={32}
+                tickFormatter={(value) => {
+                  const date = new Date(value);
+                  return date.toLocaleDateString('zh-CN', {
+                    month: 'short',
+                    day: 'numeric',
+                  });
+                }}
+              />
+              <ChartTooltip
+                content={
+                  <ChartTooltipContent
+                    className="w-[150px]"
+                    nameKey="tokens"
+                    labelFormatter={(value) => {
+                      return new Date(value).toLocaleDateString('zh-CN', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                      });
+                    }}
+                  />
+                }
+              />
+              <Bar dataKey={activeModel} fill={`var(--color-${activeModel})`} />
+            </BarChart>
+          </ChartContainer>
+        </CardContent>
+      </Card>
+      <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+        <div className="aspect-video rounded-xl bg-muted/50" />
+        <div className="aspect-video rounded-xl bg-muted/50" />
+        <div className="aspect-video rounded-xl bg-muted/50" />
+      </div>
+      <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
+    </div>
   );
 }
