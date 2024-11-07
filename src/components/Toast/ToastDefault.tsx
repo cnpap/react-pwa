@@ -21,7 +21,6 @@ export interface ToastProps {
 function ToastDefault({ type, message, position, distance }: ToastProps) {
   const [isVisible, setIsVisible] = useState(false);
 
-  console.log(`position`, position);
   useEffect(() => {
     const showTimer = setTimeout(() => setIsVisible(true), 100);
     const hideTimer = setTimeout(() => setIsVisible(false), 2700);
@@ -97,13 +96,6 @@ function ToastDefault({ type, message, position, distance }: ToastProps) {
     right: 'translate-x-full',
   };
 
-  console.log(
-    `fixed ${
-      positionClasses[position]
-    } flex items-center w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 transition-all duration-300 ease-in-out transform ${
-      isVisible ? slideInClasses[position] : initialClasses[position]
-    }`,
-  );
   return (
     <div
       id={`toast-${type}`}

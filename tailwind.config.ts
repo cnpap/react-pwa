@@ -16,6 +16,9 @@ const config: Config = {
         'bounce-vertical': 'bounce-vertical 0.5s ease-in-out',
       },
       colors: {
+        btn: '#ebeaeb',
+        bg: '#131113',
+        main: '#ff3f1a',
         primary: {
           '50': '#eff6ff',
           '100': '#dbeafe',

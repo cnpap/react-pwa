@@ -1,27 +1,27 @@
-import { useCallback, useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
-  ReactFlow,
+  addEdge,
   Background,
+  Connection,
   Controls,
+  Edge,
+  Handle,
   MiniMap,
   Node,
-  Edge,
-  Connection,
-  addEdge,
   NodeProps,
-  Handle,
-  Position,
-  useNodesState,
-  useEdgesState,
-  useReactFlow,
-  ReactFlowProvider,
   NodeTypes,
+  Position,
+  ReactFlow,
+  ReactFlowProvider,
+  useEdgesState,
+  useNodesState,
+  useReactFlow,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Check, ChevronLeft, Plus, GripVertical, Flag, Maximize2, Minimize2 } from 'lucide-react';
+import { Check, ChevronLeft, Flag, GripVertical, Maximize2, Minimize2, Plus } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -220,7 +220,8 @@ function VariableNode({
 }
 
 const nodeTypes: NodeTypes = {
-  variable: VariableNode,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  variable: VariableNode as any,
   end: EndNode,
 };
 
@@ -308,7 +309,7 @@ function EnvironmentVariableEditContent() {
         eds.map((edge: Edge) => {
           const edgeKey = `${edge.source}-${edge.target}`;
           const isInCycle = circularEdges.has(edgeKey);
-          const result = {
+          return {
             ...edge,
             isCircular: isInCycle,
             // 只更新循环依赖边的样式
@@ -320,7 +321,6 @@ function EnvironmentVariableEditContent() {
                   style: { stroke: '#3b82f6', strokeWidth: 2 },
                 }),
           };
-          return result;
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
         }) as unknown as any,
     );
@@ -569,6 +569,7 @@ function EnvironmentVariableEditContent() {
           <Controls className="bg-white border-gray-200 fill-gray-600" />
           <MiniMap
             nodeColor="#3b82f6"
+            // viewportClassName={'border-2 border-blue-500' as string}
             maskColor="rgba(243, 244, 246, 0.4)"
             className="bg-white border border-gray-300 shadow-sm rounded-lg"
             style={{
@@ -580,7 +581,6 @@ function EnvironmentVariableEditContent() {
             ariaLabel="流程图缩略图"
             nodeStrokeWidth={3}
             inversePan={false}
-            viewportClassName="border-2 border-blue-500"
             maskStrokeColor="#3b82f6"
             maskStrokeWidth={2}
           />

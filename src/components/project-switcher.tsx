@@ -44,8 +44,8 @@ export function ProjectSwitcher({ projects }: { projects: ProjectType[] }) {
               className="w-full justify-between data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <div className="flex items-center space-x-3">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-sm bg-sidebar-primary text-sidebar-primary-foreground">
-                  <GalleryVerticalEnd className="size-4" />
+                <div className="flex aspect-square size-8 items-center justify-center rounded-sm bg-main">
+                  <GalleryVerticalEnd className="size-4 text-white" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">{currentProject?.name}</span>
@@ -87,7 +87,7 @@ export function ProjectSwitcher({ projects }: { projects: ProjectType[] }) {
               <div className="flex size-6 items-center justify-center rounded-sm border border-primary-foreground/20">
                 <Plus className="size-4 shrink-0" />
               </div>
-              <span className="flex-1">创建项目</span>
+              <span className="flex-1">create project</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -40,7 +40,7 @@ export function NavProjects({
             onClick={() => setCreateProjectDialogOpen(true)}
           >
             <Plus className="text-current" />
-            <span>创建项目</span>
+            <span>create project</span>
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>

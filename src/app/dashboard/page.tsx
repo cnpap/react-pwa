@@ -11,13 +11,15 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/s
 import { Link, Outlet } from 'react-router-dom';
 function Header() {
   return (
-    <header className="flex bg-background h-16 shrink-0 items-center gap-2 px-4">
-      <SidebarTrigger className="-ml-1" />
-      <Separator orientation="vertical" className="mr-2 h-4" />
+    <header className="flex bg-background h-16 shrink-0 items-center px-4">
+      <div className="md:hidden flex items-center gap-2">
+        <SidebarTrigger className="-ml-1.5" />
+        <Separator orientation="vertical" className="mr-3.5 h-4" />
+      </div>
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem className="hidden md:block">
-            <Link to="/dashboard">首页</Link>
+            <Link to="/dashboard">home</Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator className="hidden md:block" />
           <BreadcrumbItem>

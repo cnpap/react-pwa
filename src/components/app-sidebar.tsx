@@ -4,13 +4,7 @@ import { Bolt } from 'lucide-react';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { ProjectSwitcher } from '@/components/project-switcher';
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarRail,
-} from '@/components/ui/sidebar';
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from '@/components/ui/sidebar';
 import { useAccount } from '@/hooks/useAccount';
 import { useProjectList } from '@/hooks/useProjectList';
 import { ROUTE_DASHBOARD_ENVIRONMENT_VARIABLE } from '@/constant/route';
@@ -349,7 +343,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           }}
         />
       </SidebarFooter>
-      <SidebarRail />
+      {/* <SidebarRail /> */}
     </Sidebar>
   );
 }

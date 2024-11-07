@@ -9,12 +9,10 @@ import { Pagination } from '@/components/shared/pagination';
 import { IconButton } from '@/components/environment/icon-button';
 import { Plus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-
-type EnvType = 'env' | 'json' | 'yaml';
+import { MiniCardBox } from '../Box/MiniCardBox';
 
 export function EnvironmentTable() {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [typeFilter, setTypeFilter] = useState<EnvType | ''>('');
   const [currentPage, setCurrentPage] = useState(0);
   const pageSize = 12;
   const navigate = useNavigate();
@@ -24,8 +22,7 @@ export function EnvironmentTable() {
   const filteredData = environmentGroups.filter((item) => {
     const matchesSearch =
       !searchValue || item.name.toLowerCase().includes(searchValue.toLowerCase());
-    const matchesType = !typeFilter || item.type === typeFilter;
-    return matchesSearch && matchesType;
+    return matchesSearch;
   });
 
   const paginatedData = filteredData.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
@@ -39,8 +36,8 @@ export function EnvironmentTable() {
       <SearchHeader
         value={searchValue}
         onChange={(value) => setColumnFilters(value ? [{ id: 'name', value }] : [])}
-        onTypeChange={(type) => setTypeFilter(type as EnvType)}
-        placeholder="搜索环境..."
+        // onTypeChange={(type) => setTypeFilter(type as EnvType)}
+        placeholder="search ..."
         rightElement={
           <IconButton
             variant="default"
@@ -55,20 +52,19 @@ export function EnvironmentTable() {
         }
       />
 
-      <div className="flex-1 overflow-auto p-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {paginatedData.map((group) => (
-            <EnvCard key={group.id} group={group} onEdit={handleEdit} />
-          ))}
-        </div>
-      </div>
+      <MiniCardBox>
+        {paginatedData.map((group) => (
+          <EnvCard key={group.id} group={group} onEdit={handleEdit} />
+        ))}
+      </MiniCardBox>
 
       <Pagination
         currentPage={currentPage}
         totalItems={filteredData.length}
         pageSize={pageSize}
         onPageChange={setCurrentPage}
-        itemName="个环境"
+        // itemName="个环境"
+        itemName="env"
       />
     </div>
   );

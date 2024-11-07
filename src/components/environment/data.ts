@@ -13,7 +13,7 @@ export interface EnvironmentGroup {
 export const environmentGroups: EnvironmentGroup[] = [
   {
     id: '1',
-    name: 'production.env',
+    name: 'production',
     type: 'env',
     description: '生产环境配置',
     updatedAt: '2024-03-20',
@@ -24,7 +24,7 @@ export const environmentGroups: EnvironmentGroup[] = [
   },
   {
     id: '2',
-    name: 'development.json',
+    name: 'development',
     type: 'json',
     description: '开发环境配置',
     updatedAt: '2024-03-19',
@@ -35,7 +35,7 @@ export const environmentGroups: EnvironmentGroup[] = [
   },
   {
     id: '3',
-    name: 'staging.yaml',
+    name: 'staging',
     type: 'yaml',
     description: '测试环境配置',
     updatedAt: '2024-03-18',
