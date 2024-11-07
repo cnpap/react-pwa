@@ -15,3 +15,6 @@ export const ROUTE_DASHBOARD = '/dashboard';
 export const ROUTE_DASHBOARD_HOME = '/dashboard/';
 
 export const ROUTE_DASHBOARD_ENVIRONMENT_VARIABLE = '/dashboard/environment-variable';
+
+export const ROUTE_DASHBOARD_ENVIRONMENT_VARIABLE_EDIT =
+  `${ROUTE_DASHBOARD_ENVIRONMENT_VARIABLE}/:id` as const;

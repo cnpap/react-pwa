@@ -50,6 +50,11 @@ const routes: Routes = [
         title: '环境变量',
         icon: TerrainIcon,
       },
+      {
+        component: asyncComponentLoader(() => import('@/pages/Dashboard/EnvironmentVariable/Edit')),
+        path: `${ROUTE_DASHBOARD_ENVIRONMENT_VARIABLE}/:id`,
+        title: '编辑环境变量',
+      },
     ],
   },
   {
