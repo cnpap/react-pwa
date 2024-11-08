@@ -20,7 +20,6 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { Check, ChevronLeft, Flag, GripVertical, Maximize2, Minimize2, Plus } from 'lucide-react';
 import {
   Table,
@@ -50,22 +49,23 @@ interface VariableNodeData extends Record<string, unknown> {
 interface EndNodeData extends Record<string, unknown> {
   label: string;
 }
-// 添加结束节点组件
-function EndNode() {
+
+// 修改 EndNode 组件为 StartNode 组件
+function StartNode() {
   return (
-    <Card className="min-w-[160px] p-1 shadow-sm rounded-sm relative bg-white border border-blue-100">
+    <div className="min-w-[160px] p-1 shadow-sm relative bg-slate-100">
       <Handle
-        type="target"
-        position={Position.Top}
-        className="!bg-blue-500 !w-[20px] !h-[6px] !rounded-none !border-none !-top-[3px] hover:!h-[8px] transition-all"
+        type="source"
+        position={Position.Right}
+        className="!bg-slate-500 !w-[6px] !h-[20px] !rounded-none !border-none !-right-[3px] hover:!w-[8px] transition-all"
       />
       <div className="relative rounded-sm p-3 flex items-center justify-center gap-2">
-        <div className="p-1.5 rounded-full bg-blue-50">
-          <Flag className="h-4 w-4 text-blue-600" />
+        <div className="p-1.5 rounded-full bg-slate-50">
+          <Flag className="h-4 w-4 text-slate-800" />
         </div>
-        <span className="text-sm font-medium text-blue-700">完成</span>
+        <span className="text-sm font-medium text-slate-800">start</span>
       </div>
-    </Card>
+    </div>
   );
 }
 
@@ -112,40 +112,40 @@ function VariableNode({
   };
 
   return (
-    <Card
+    <div
       className={`min-w-[400px] shadow-sm transition-all duration-200 relative border-0 ${
-        selected ? 'ring-2 ring-blue-500 ring-offset-2 ring-offset-slate-200' : ''
+        selected ? 'ring-2 ring-slate-500 ring-offset-2 ring-offset-slate-200' : ''
       } ${data.hasWarning ? 'border-yellow-500/50 bg-yellow-50/50' : ''}`}
     >
       <Handle
         type="target"
-        position={Position.Top}
-        className={`!w-[20px] !h-[6px] !rounded-none !border-none !-top-[3px] hover:!h-[8px] transition-all ${
-          data.hasWarning ? '!bg-yellow-500' : '!bg-blue-500'
+        position={Position.Left}
+        className={`!w-[6px] !h-[20px] !rounded-none !border-none !-left-[3px] hover:!w-[8px] transition-all !top-[30px] ${
+          data.hasWarning ? '!bg-yellow-500' : '!bg-main'
         }`}
       />
       <div
         className={`px-6 py-3 flex items-center justify-between ${
           data.hasWarning
-            ? 'bg-yellow-500/10 border-b border-yellow-500/20'
-            : 'bg-blue-500/10 border-b border-blue-500/20'
+            ? 'bg-yellow-500/10 border-b-4 border-yellow-500/20'
+            : 'bg-slate-100 border-b-4 border-main'
         }`}
       >
-        <span className={`font-medium ${data.hasWarning ? 'text-yellow-700' : 'text-blue-700'}`}>
-          环境变量
+        <span className={`text-xl ${data.hasWarning ? 'text-yellow-700' : 'text-main'}`}>
+          environment variable
         </span>
-        <div className="cursor-move p-1.5 hover:bg-blue-500/10 rounded-sm transition-colors">
+        <div className="cursor-move p-1.5 hover:bg-slate-500/10 rounded-sm transition-colors">
           <GripVertical
-            className={`h-5 w-5 ${data.hasWarning ? 'text-yellow-500/70' : 'text-blue-500/70'}`}
+            className={`h-5 w-5 ${data.hasWarning ? 'text-yellow-500/70' : 'text-slate-500/70'}`}
           />
         </div>
       </div>
-      <div onDoubleClick={handleDoubleClick}>
+      <div className="bg-slate-50" onDoubleClick={handleDoubleClick}>
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead className="w-[180px] pl-6">变量名称</TableHead>
-              <TableHead className="pl-6">变量值</TableHead>
+              <TableHead className="w-[180px] pl-6">name</TableHead>
+              <TableHead className="pl-6">value</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -182,7 +182,7 @@ function VariableNode({
                             e.stopPropagation();
                             handleCopy(variable.value, index);
                           }}
-                          className="h-7 px-3 text-xs hover:bg-blue-500/10 hover:text-blue-600"
+                          className="h-7 px-3 text-xs hover:bg-slate-500/10 hover:text-slate-600"
                         >
                           复制
                         </Button>
@@ -194,7 +194,7 @@ function VariableNode({
                               e.stopPropagation();
                               toggleValueVisibility(index);
                             }}
-                            className="h-7 px-3 text-xs hover:bg-blue-500/10 hover:text-blue-600"
+                            className="h-7 px-3 text-xs hover:bg-slate-500/10 hover:text-slate-600"
                           >
                             {visibleValues.has(index) ? '隐藏' : '显示'}
                           </Button>
@@ -207,22 +207,28 @@ function VariableNode({
             ))}
           </TableBody>
         </Table>
+        <div className="flex border-t border-slate-200 items-center justify-between p-3">
+          <Button variant="ghost" size="sm">
+            <Plus className="h-4 w-4 mr-1" />
+            添加变量
+          </Button>
+        </div>
       </div>
       <Handle
         type="source"
-        position={Position.Bottom}
-        className={`!w-[20px] !h-[6px] !rounded-none !border-none !-bottom-[3px] hover:!h-[8px] transition-all ${
-          data.hasWarning ? '!bg-yellow-500' : '!bg-blue-500'
+        position={Position.Right}
+        className={`!w-[6px] !h-[20px] !rounded-none !border-none !-right-[3px] hover:!w-[8px] transition-all !top-[30px] ${
+          data.hasWarning ? '!bg-yellow-500' : '!bg-slate-500'
         }`}
       />
-    </Card>
+    </div>
   );
 }
 
 const nodeTypes: NodeTypes = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   variable: VariableNode as any,
-  end: EndNode,
+  start: StartNode,
 };
 
 // 更新节点类型定义
@@ -331,42 +337,52 @@ function EnvironmentVariableEditContent() {
   // 更新节点依赖检查函数
   const checkNodeDependencies = useCallback(() => {
     const outgoingEdges = new Map<string, string[]>();
+    const incomingEdges = new Map<string, string[]>();
 
     edges.forEach((edge: Edge) => {
+      // 记录出边
       if (!outgoingEdges.has(edge.source)) {
         outgoingEdges.set(edge.source, []);
       }
       outgoingEdges.get(edge.source)?.push(edge.target);
+
+      // 记录入边
+      if (!incomingEdges.has(edge.target)) {
+        incomingEdges.set(edge.target, []);
+      }
+      incomingEdges.get(edge.target)?.push(edge.source);
     });
 
-    // 检查是否所有节点都连接到了结束节点
-    const connectedToEnd = new Set<string>();
-    function findPathToEnd(nodeId: string, visited = new Set<string>()) {
-      if (nodeId === 'end-node' || connectedToEnd.has(nodeId)) return true;
+    // 检查是否所有节点都可以从开始节点到达
+    const reachableFromStart = new Set<string>();
+    function findPathFromStart(nodeId: string, visited = new Set<string>()) {
+      if (reachableFromStart.has(nodeId)) return true;
       if (visited.has(nodeId)) return false;
 
       visited.add(nodeId);
+      reachableFromStart.add(nodeId);
+
       const targets = outgoingEdges.get(nodeId) || [];
       for (const target of targets) {
-        if (findPathToEnd(target, visited)) {
-          connectedToEnd.add(nodeId);
-          return true;
-        }
+        findPathFromStart(target, visited);
       }
-      return false;
+      return true;
     }
+
+    // 从开始节点开始遍历
+    findPathFromStart('start-node');
 
     // 更新节点状态
     setNodes(
       (nds) =>
         nds.map((node: CustomNode) => {
-          if (node.type === 'end') return node;
+          if (node.type === 'start') return node;
 
-          const hasOutgoing = (outgoingEdges.get(node.id)?.length || 0) > 0;
-          const isConnectedToEnd = findPathToEnd(node.id);
+          const hasIncoming = (incomingEdges.get(node.id)?.length || 0) > 0;
+          const isReachableFromStart = reachableFromStart.has(node.id);
 
-          // 只检查是否有出边和是否连接到结束节点
-          const hasWarning = !hasOutgoing || !isConnectedToEnd;
+          // 检查是否有入边且是否可从开始节点到达
+          const hasWarning = !hasIncoming || !isReachableFromStart;
 
           return {
             ...node,
@@ -403,13 +419,13 @@ function EnvironmentVariableEditContent() {
 
   // 初始化结束节点
   useEffect(() => {
-    const endNode: Node<EndNodeData> = {
-      id: 'end-node',
-      type: 'end',
-      position: { x: 100, y: 400 },
-      data: { label: '完成' },
+    const startNode: Node = {
+      id: 'start-node',
+      type: 'start',
+      position: { x: 100, y: 200 },
+      data: { label: '开始' },
     };
-    setNodes([endNode as never]);
+    setNodes([startNode as never]);
   }, [setNodes]);
 
   // 处理节点选择
@@ -568,10 +584,10 @@ function EnvironmentVariableEditContent() {
           <Background color="#9ca3af" gap={20} size={1} />
           <Controls className="bg-white border-gray-200 fill-gray-600" />
           <MiniMap
-            nodeColor="#3b82f6"
-            // viewportClassName={'border-2 border-blue-500' as string}
+            nodeColor="#ff3f1a"
+            // viewportClassName={'border-2 border-slate-500' as string}
             maskColor="rgba(243, 244, 246, 0.4)"
-            className="bg-white border border-gray-300 shadow-sm rounded-lg"
+            className="bg-white border border-gray-100 shadow-sm rounded-sm"
             style={{
               background: '#f3f4f6',
               padding: '6px',
@@ -581,7 +597,7 @@ function EnvironmentVariableEditContent() {
             ariaLabel="流程图缩略图"
             nodeStrokeWidth={3}
             inversePan={false}
-            maskStrokeColor="#3b82f6"
+            maskStrokeColor="#ff3f1a"
             maskStrokeWidth={2}
           />
         </ReactFlow>
