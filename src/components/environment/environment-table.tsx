@@ -20,9 +20,7 @@ export function EnvironmentTable() {
   const searchValue = (columnFilters[0]?.value as string) ?? '';
 
   const filteredData = environmentGroups.filter((item) => {
-    const matchesSearch =
-      !searchValue || item.name.toLowerCase().includes(searchValue.toLowerCase());
-    return matchesSearch;
+    return !searchValue || item.name.toLowerCase().includes(searchValue.toLowerCase());
   });
 
   const paginatedData = filteredData.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
