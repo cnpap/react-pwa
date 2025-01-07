@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import AutoForm from '@/components/Form/Form';
 import { RJSFSchema, UiSchema } from '@rjsf/utils';
-
+import { JSONSchemaType } from 'ajv';
+import { MyUiSchema } from '@/types';
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
   title: 'Example/AutoForm',
@@ -251,7 +252,55 @@ const schema: RJSFSchema = {
   },
 };
 
-const uiSchema: UiSchema = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const uiSchema: MyUiSchema<
+  any,
+  RJSFSchema,
+  any,
+  {
+    basicInfo: {
+      name: string;
+      age: number;
+      gender: 'male' | 'female' | 'other';
+      newsletter?: boolean;
+      notification?: boolean;
+    };
+    education: {
+      degrees: {
+        items: {
+          period: {
+            start: string;
+          };
+          schoolName: string;
+          degree: 'bachelor' | 'master' | 'phd' | 'other';
+          major: string;
+          gpa?: number;
+        };
+      };
+    };
+    contacts: {
+      items: {
+        type: string;
+      };
+    };
+    workExperience: {
+      items: {
+        period: {
+          start: string;
+        };
+        company: {
+          name: string;
+        };
+        department: {
+          name: string;
+        };
+        position: {
+          title: string;
+        };
+      };
+    };
+  }
+> = {
   basicInfo: {
     'ui:order': ['name', 'age', 'gender', 'newsletter', 'notification'],
     'ui:help': '所有带 * 号的字段都必须填写',
@@ -273,53 +322,6 @@ const uiSchema: UiSchema = {
     },
     notification: {
       'ui:widget': 'switch',
-    },
-  },
-  contacts: {
-    'ui:options': {
-      orderable: true,
-      addable: true,
-      removable: true,
-    },
-    items: {
-      'ui:title': '',
-      type: {
-        'ui:help': '请选择联系方式类型',
-      },
-      value: {
-        'ui:placeholder': '请输入联系方式',
-        'ui:help': '请输入正确的联系方式',
-      },
-    },
-  },
-  hobbies: {
-    'ui:placeholder': '请输入兴趣爱好，按回车添加',
-    'ui:help': '可以添加多个兴趣爱好',
-    'ui:options': {
-      addable: true,
-      removable: true,
-    },
-  },
-  address: {
-    'ui:help': '请完整填写地址信息',
-    province: {
-      'ui:placeholder': '请选择省份',
-      'ui:help': '请选择所在省份',
-    },
-    city: {
-      'ui:placeholder': '请选择城市',
-      'ui:help': '请选择所在城市',
-    },
-    detail: {
-      'ui:widget': 'textarea',
-      'ui:placeholder': '请输入详细地址',
-      'ui:help': '请输入完整的街道地址',
-    },
-  },
-  additionalInfo: {
-    'ui:help': '可以点击下方按钮添加更多信息',
-    'ui:options': {
-      addable: true,
     },
   },
   education: {
@@ -392,19 +394,6 @@ const uiSchema: UiSchema = {
       },
     },
   },
-  period: {
-    startDate: {
-      'ui:widget': 'DatePicker',
-      'ui:placeholder': '请选择开始日期',
-    },
-    endDate: {
-      'ui:widget': 'DatePicker',
-      'ui:placeholder': '请选择结束日期',
-    },
-    isCurrent: {
-      'ui:widget': 'switch',
-    },
-  },
 };
 
 // 定义表单数据的接口
@@ -458,6 +447,99 @@ interface FormData {
 export const Primary: Story = {
   args: {
     schema,
-    uiSchema,
+    uiSchema: uiSchema as RJSFSchema,
+    onSubmit: (data) => {
+      console.log(data);
+    },
+  },
+};
+
+// More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
+export const Secondary: Story = {
+  args: {
+    schema,
+    uiSchema: uiSchema as RJSFSchema,
+    onSubmit: (data) => {
+      console.log(data);
+    },
+  },
+};
+
+// 在文件末尾添加新的 story
+export const WithCheckbox: Story = {
+  args: {
+    schema: {
+      type: 'object',
+      required: ['preferences'],
+      properties: {
+        preferences: {
+          type: 'object',
+          title: '个人偏好设置',
+          properties: {
+            interests: {
+              type: 'array',
+              title: '兴趣爱好',
+              items: {
+                type: 'string',
+                enum: ['reading', 'sports', 'music', 'travel', 'cooking'],
+                oneOf: [
+                  { const: 'reading', title: '阅读' },
+                  { const: 'sports', title: '运动' },
+                  { const: 'music', title: '音乐' },
+                  { const: 'travel', title: '旅行' },
+                  { const: 'cooking', title: '烹饪' },
+                ],
+              },
+              uniqueItems: true,
+            },
+            notifications: {
+              type: 'object',
+              title: '通知设置',
+              properties: {
+                email: {
+                  type: 'boolean',
+                  title: '邮件通知',
+                  description: '接收重要更新的邮件通知',
+                },
+                sms: {
+                  type: 'boolean',
+                  title: '短信通知',
+                  description: '接收重要更新的短信通知',
+                },
+                push: {
+                  type: 'boolean',
+                  title: '推送通知',
+                  description: '接收应用内推送通知',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    uiSchema: {
+      preferences: {
+        interests: {
+          'ui:widget': 'checkbox',
+          'ui:options': {
+            inline: true,
+          },
+        },
+        notifications: {
+          email: {
+            'ui:widget': 'checkbox',
+          },
+          sms: {
+            'ui:widget': 'checkbox',
+          },
+          push: {
+            'ui:widget': 'checkbox',
+          },
+        },
+      },
+    } as RJSFSchema,
+    onSubmit: (data) => {
+      console.log('表单提交数据：', data);
+    },
   },
 };

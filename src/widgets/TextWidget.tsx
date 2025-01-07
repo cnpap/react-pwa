@@ -1,9 +1,9 @@
 // src/widgets/TextWidget.tsx
 import React from 'react';
 import { WidgetProps } from '@rjsf/utils';
-import { Input } from '@/components/ui/input'; // 根据实际路径调整
+import { Input, InputProps } from '@/components/ui/input'; // 根据实际路径调整
 
-const TextWidget: React.FC<WidgetProps> = ({
+const TextWidget: React.FC<WidgetProps & InputProps> = ({
   id,
   placeholder,
   value,
@@ -16,6 +16,7 @@ const TextWidget: React.FC<WidgetProps> = ({
   onChange,
 }) => (
   <Input
+    readOnly={readonly}
     id={id}
     placeholder={placeholder}
     value={value || ''}

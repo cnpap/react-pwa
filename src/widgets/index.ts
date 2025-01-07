@@ -1,15 +1,15 @@
 // src/widgets/index.ts
-import TextWidget from './TextWidget';
 import TextareaWidget from './TextareaWidget';
 import SelectWidget from './SelectWidget';
 import DatePickerWidget from './DatePickerWidget';
 import CheckboxWidget from './CheckboxWidget';
 import RadioWidget from './RadioWidget';
 import SwitchWidget from './SwitchWidget';
+import { Input } from '@/components/ui/input';
 
 const widgets = {
-  TextWidget,
-  text: TextWidget,
+  TextWidget: Input,
+  text: Input,
   select: SelectWidget,
   switch: SwitchWidget,
   radio: RadioWidget,

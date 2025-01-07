@@ -13,9 +13,10 @@ const DatePickerWidget: React.FC<WidgetProps> = ({
   readonly,
   placeholder,
   onChange,
+  uiSchema,
 }) => {
   const date = value ? new Date(value) : undefined;
-  console.log(123123, date);
+  console.log(123123, date, uiSchema);
   return (
     <Popover>
       <PopoverTrigger asChild>
